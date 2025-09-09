@@ -1,0 +1,218 @@
+   /* ===== カラーパレット ===== */
+    :root{
+      --brown-bg:#2a1b16;       /* 背景（焦茶） */
+      --brown-900:#3b241f;      /* ダークブラウン（カード縁・強調） */
+      --latte-300:#E3C7A8;      /* カフェオレ（アクセント） */
+      --latte-200:#D7B899;      /* 少し濃いアクセント */
+      --cream-50:#F6F1E7;       /* アイボリー（文字・カード地） */
+      --ink:#221915;            /* 本文色（濃茶） */
+      --muted:#6f6159;          /* サブ文字 */
+      --white:#fff;
+      --maxw:1080px;
+      --radius:16px;
+      --shadow:0 14px 40px rgba(0,0,0,.25);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+      color:var(--cream-50); background:var(--brown-bg);
+      line-height:1.7; letter-spacing:.02em;
+    }
+    a{color:inherit}
+
+    /* ===== ヘッダー ===== */
+    .header{
+   position:sticky;
+   top:0;
+   z-index:20;
+   background: linear-gradient(rgba(43,30,25,.7), rgba(43,30,25,.7)),
+              url("images/coffeemame2.jpg") center/cover no-repeat;
+   border-bottom:1px solid rgba(227,199,168,.25);
+  }
+   .nav{
+  max-width:var(--maxw);
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 16px; /* ← ここ */
+  }
+
+    
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700}
+    .logo-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#5a3a31,#291a15);box-shadow:inset 0 0 0 3px rgba(215,184,153,.6)}
+    .brand{font-family:'Yuji Syuku',serif; font-size:20px; letter-spacing:.06em}
+    .nav a{padding:.5rem .8rem;border-radius:12px; text-decoration:none; color:var(--cream-50)}
+    .nav a:hover{background:rgba(215,184,153,.18)}
+
+    /* ===== セクション共通 ===== */
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px 16px}
+    h1,h2,h3{line-height:1.3;margin:0 0 12px}
+    h2{font-size:clamp(22px,2.4vw,28px);font-weight:700;color:var(--latte-300)}
+    .card{background:var(--cream-50); border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid rgba(227,199,168,.35); color:var(--ink)}
+    .lead{color:var(--muted)}
+
+    /* ===== ヒーロー ===== */
+    .hero{position:relative;min-height:62svh;display:grid;grid-template-columns:1.2fr 1fr;gap:22px;align-items:center;padding:36px 16px}
+    .hero-media{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(227,199,168,.35)}
+    .hero-media img{display:block;width:100%;height:100%;object-fit:cover}
+    .hero-card{padding:22px}
+    .catch{font-family:'Yuji Syuku',serif;font-size:clamp(22px,3.2vw,36px);color:#3b241f}
+    .status{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#1aa061;color:#fff;font-weight:700;font-size:14px}
+    .status.is-closed{background:#a4453d}
+    .hours{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0 0;font-variant-numeric:tabular-nums}
+    .chip{display:inline-block;border-radius:999px;background:var(--latte-200);color:#3b2a21;padding:4px 10px;font-weight:700;font-size:12px}
+
+    /* ===== メニュー ===== */
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .menu-item img{width:100%;height:170px;object-fit:cover;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius)}
+    .menu-item .body{padding:14px 16px}
+    .price{font-weight:800;color:var(--brown-900)}
+
+    /* ===== お店について ===== */
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;padding:16px}
+    .owner-quote{display:flex;align-items:center;gap:14px}
+    .owner-photo{width:120px;height:auto;object-fit:cover;border-radius:10px;border:2px solid var(--latte-200)}
+    .bubble{position:relative;display:inline-block;background:var(--latte-300);color:#2a1c16;padding:10px 14px;border-radius:12px;font-weight:700}
+    .bubble::after{content:"";position:absolute;left:18px;top:100%;width:0;height:0;border:10px solid transparent;border-top-color:var(--latte-300)}
+    .about h3{font-family:'Yuji Syuku',serif;color:#3b241f}
+
+    /* ===== アクセス ===== */
+    .access-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:start}
+    .map-embed{aspect-ratio:16/10;width:100%;border:0;border-radius:var(--radius)}
+
+    /* ===== フッター ===== */
+    footer{margin-top:36px;padding:26px 16px;background:#1f1411;color:#cdb197}
+    .sns{display:flex;gap:10px;flex-wrap:wrap}
+    .sns a{text-decoration:none;background:#3a241f;color:#eadfce;padding:6px 10px;border-radius:10px}
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 920px){
+      .hero{grid-template-columns:1fr}
+      .about{grid-template-columns:1fr}
+      .access-grid{grid-template-columns:1fr}
+    }
+
+    /* アクセシビリティ: スキップリンク */
+    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip-link:focus{left:10px;top:10px;width:auto;height:auto;background:#000;color:#fff;padding:8px;border-radius:8px}
+
+    /* === Hero：写真上に文字を重ねる版 === */
+.hero{
+  padding: 0;                /* 余白は内側で管理 */
+}
+
+.hero-media.is-overlay{
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(227,199,168,.35);
+  min-height: 62svh;         /* 高さは元と同じくらい */
+}
+
+/* 画像は全面に敷く */
+.hero-media.is-overlay img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 可読性を上げるための暗めグラデーション */
+.hero-media.is-overlay::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.55) 100%);
+  pointer-events: none;
+}
+
+.hero-copy{
+  position:absolute;
+  right: clamp(16px, 6vw, 60px);
+  top:    clamp(16px, 6vw, 60px);  /* ← 上も確保 */
+  bottom: clamp(16px, 6vw, 60px);  /* ← 下も確保（見切れ防止） */
+  width: min(48%, 720px);
+  display: grid;
+  align-content: end;              /* ← ボックス内で下寄せ */
+  gap: clamp(8px, 1.6vw, 14px);
+  color: var(--cream-50);
+  text-align: left;
+  align-items: flex-start;
+  z-index: 1;
+}
+
+
+/* 見出しの色は暗色→明色に（背景上で読みやすく） */
+.catch{
+  color: var(--cream-50);
+  text-shadow: 0 2px 12px rgba(0,0,0,.45);
+}
+
+/* ステータス行の並びと間隔 */
+.hero-chips{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 6px 0 2px;
+}
+
+/* モバイル微調整 */
+@media (max-width: 600px){
+  .hours{ gap: 4px 10px; }
+}
+
+/* === 右半分に寄せて、右揃え。見切れ防止で下基準に固定 === */
+.hero-copy{
+  position: absolute;
+  right: clamp(16px, 6vw, 60px);   /* 右に寄せる */
+  bottom: clamp(16px, 6vw, 60px);  /* 下基準で配置 */
+  width: min(48%, 720px);          /* 右半分に収める */
+  display: grid;
+  gap: clamp(8px, 1.6vw, 14px);
+  color: var(--cream-50);
+  text-align: left;                /* ← 左揃えに変更 */
+  align-items: flex-start;         /* ← 子要素も左に揃える */
+  z-index: 1;
+}
+
+
+/* 見切れやすい「営業時間」を内側で読みやすく */
+.hours{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  font-size: clamp(12px, 1.2vw, 14px);
+  line-height: 1.6;
+  /* 透過背景で可読性UP（任意） */
+  background: rgba(0,0,0,.28);
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+/* 文字の視認性を少し底上げ */
+.catch, .lead, .hours, .status, .chip{
+  text-shadow: 0 2px 10px rgba(0,0,0,.45);
+}
+
+/* スマホは中央寄せに切り替え（任意） */
+@media (max-width: 768px){
+  .hero-copy{
+    left: 50%;
+    right: auto;
+    bottom: clamp(16px, 6vw, 40px);
+    transform: translateX(-50%);
+    width: min(92%, 560px);
+    text-align: center;
+    align-items: center;
+  }
+}
+
+  
+

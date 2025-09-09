@@ -3,135 +3,53 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>だんご喫茶｜ミルクたっぷりカフェラテと珈琲</title>
-  <meta name="description" content="だんご喫茶。ミルクたっぷりのカフェラテと、こだわりの珈琲。気軽によっていってや、ええ時間になるで。" />
+  <title>いぐお喫茶｜ミルクたっぷりカフェラテと珈琲</title>
+  <meta name="description" content="いぐお喫茶。ミルクたっぷりのカフェラテと、こだわりの珈琲。気軽によっていってや、ええ時間になるで。" />
   <!-- 筆書体（Google Fonts：悠々敷・Yuji Syuku）と本文用フォントを読み込み -->
   <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* ===== カラーパレット ===== */
-    :root{
-      --brown-bg:#2a1b16;       /* 背景（焦茶） */
-      --brown-900:#3b241f;      /* ダークブラウン（カード縁・強調） */
-      --latte-300:#E3C7A8;      /* カフェオレ（アクセント） */
-      --latte-200:#D7B899;      /* 少し濃いアクセント */
-      --cream-50:#F6F1E7;       /* アイボリー（文字・カード地） */
-      --ink:#221915;            /* 本文色（濃茶） */
-      --muted:#6f6159;          /* サブ文字 */
-      --white:#fff;
-      --maxw:1080px;
-      --radius:16px;
-      --shadow:0 14px 40px rgba(0,0,0,.25);
-    }
+  <link rel="stylesheet" href="style.css">
 
-    *{box-sizing:border-box}
-    html,body{margin:0}
-    body{
-      font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
-      color:var(--cream-50); background:var(--brown-bg);
-      line-height:1.7; letter-spacing:.02em;
-    }
-    a{color:inherit}
-
-    /* ===== ヘッダー ===== */
-    .header{position:sticky;top:0;z-index:20;background:rgba(43,30,25,.8);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid rgba(227,199,168,.25)}
-    .nav{max-width:var(--maxw);margin:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
-    .logo{display:flex;align-items:center;gap:10px;font-weight:700}
-    .logo-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#5a3a31,#291a15);box-shadow:inset 0 0 0 3px rgba(215,184,153,.6)}
-    .brand{font-family:'Yuji Syuku',serif; font-size:20px; letter-spacing:.06em}
-    .nav a{padding:.5rem .8rem;border-radius:12px; text-decoration:none; color:var(--cream-50)}
-    .nav a:hover{background:rgba(215,184,153,.18)}
-
-    /* ===== セクション共通 ===== */
-    .container{max-width:var(--maxw);margin:0 auto;padding:28px 16px}
-    h1,h2,h3{line-height:1.3;margin:0 0 12px}
-    h2{font-size:clamp(22px,2.4vw,28px);font-weight:700;color:var(--latte-300)}
-    .card{background:var(--cream-50); border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid rgba(227,199,168,.35); color:var(--ink)}
-    .lead{color:var(--muted)}
-
-    /* ===== ヒーロー ===== */
-    .hero{position:relative;min-height:62svh;display:grid;grid-template-columns:1.2fr 1fr;gap:22px;align-items:center;padding:36px 16px}
-    .hero-media{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(227,199,168,.35)}
-    .hero-media img{display:block;width:100%;height:100%;object-fit:cover}
-    .hero-card{padding:22px}
-    .catch{font-family:'Yuji Syuku',serif;font-size:clamp(22px,3.2vw,36px);color:#3b241f}
-    .status{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#1aa061;color:#fff;font-weight:700;font-size:14px}
-    .status.is-closed{background:#a4453d}
-    .hours{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0 0;font-variant-numeric:tabular-nums}
-    .chip{display:inline-block;border-radius:999px;background:var(--latte-200);color:#3b2a21;padding:4px 10px;font-weight:700;font-size:12px}
-
-    /* ===== メニュー ===== */
-    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-    .menu-item img{width:100%;height:170px;object-fit:cover;border-top-left-radius:var(--radius);border-top-right-radius:var(--radius)}
-    .menu-item .body{padding:14px 16px}
-    .price{font-weight:800;color:var(--brown-900)}
-
-    /* ===== お店について ===== */
-    .about{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;padding:16px}
-    .owner-quote{display:flex;align-items:center;gap:14px}
-    .owner-photo{width:120px;height:auto;object-fit:cover;border-radius:10px;border:2px solid var(--latte-200)}
-    .bubble{position:relative;display:inline-block;background:var(--latte-300);color:#2a1c16;padding:10px 14px;border-radius:12px;font-weight:700}
-    .bubble::after{content:"";position:absolute;left:18px;top:100%;width:0;height:0;border:10px solid transparent;border-top-color:var(--latte-300)}
-    .about h3{font-family:'Yuji Syuku',serif;color:#3b241f}
-
-    /* ===== アクセス ===== */
-    .access-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:start}
-    .map-embed{aspect-ratio:16/10;width:100%;border:0;border-radius:var(--radius)}
-
-    /* ===== フッター ===== */
-    footer{margin-top:36px;padding:26px 16px;background:#1f1411;color:#cdb197}
-    .sns{display:flex;gap:10px;flex-wrap:wrap}
-    .sns a{text-decoration:none;background:#3a241f;color:#eadfce;padding:6px 10px;border-radius:10px}
-
-    /* ===== レスポンシブ ===== */
-    @media (max-width: 920px){
-      .hero{grid-template-columns:1fr}
-      .about{grid-template-columns:1fr}
-      .access-grid{grid-template-columns:1fr}
-    }
-
-    /* アクセシビリティ: スキップリンク */
-    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{left:10px;top:10px;width:auto;height:auto;background:#000;color:#fff;padding:8px;border-radius:8px}
-  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">本文へスキップ</a>
 
-  <!-- ===== ヘッダー ===== -->
   <header class="header" role="banner" aria-label="サイトヘッダー">
-    <nav class="nav" aria-label="主要ナビゲーション">
-      <div class="logo">
-        <span class="logo-mark" aria-hidden="true"></span>
-        <span class="brand">だんご喫茶</span>
-      </div>
-      <div class="links">
-        <a href="#menu">メニュー</a>
-        <a href="#about">お店について</a>
-        <a href="#access">アクセス</a>
-      </div>
-    </nav>
-  </header>
+  <nav class="nav" aria-label="主要ナビゲーション">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true"></span>
+      <span class="brand">いぐお喫茶</span>
+    </div>
+    <div class="links">
+      <a href="#menu">メニュー</a>
+      <a href="#about">お店について</a>
+      <a href="#access">アクセス</a>
+      <!-- ▼ ここにステータスを移動 -->
+      <span class="status">本日営業中</span>
+    </div>
+  </nav>
+</header>
+
 
   <main id="main">
-    <!-- ===== ヒーロー（外観写真＋キャッチ＋営業時間） ===== -->
-    <section class="hero container" aria-label="ヒーロー">
-      <figure class="hero-media" aria-label="外観写真">
-        <img src="images/hero.jpg" alt="だんご喫茶の外観写真" />
-      </figure>
-      <article class="card hero-card" aria-label="キャッチと営業時間">
-        <h1 class="catch">気軽によっていってや、ええ時間になるで</h1>
-        <p class="lead">ミルクたっぷりのカフェラテと、こだわりの珈琲。初めての方も気軽に立ち寄れる、落ち着いた喫茶です。</p>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 2px">
-          <span id="openStatus" class="status" aria-live="polite">本日営業中</span>
-          <span class="chip">営業時間・定休日</span>
-        </div>
-        <div class="hours" aria-label="営業時間">
-          <div>平日</div><div>10:00 - 19:00</div>
-          <div>土日</div><div>10:00 - 18:00</div>
-          <div>定休日</div><div>水曜</div>
-        </div>
-      </article>
-    </section>
+
+<!-- ===== ヒーロー（写真と文字を重ねる） ===== -->
+<section class="hero" aria-label="ヒーロー">
+  <figure class="hero-media is-overlay" aria-label="外観写真">
+    <img src="images/coffee2.jpg" alt="だんご喫茶の外観写真" />
+    <div class="hero-copy">
+      <h1 class="catch">気軽によっていってや、<br>ええ時間になるで</h1>
+       <p class="lead">ミルクたっぷりのカフェラテと、こだわりの珈琲。<br>初めての方も気軽に立ち寄れる、落ち着いた喫茶です。</p>
+
+<div class="hours" aria-label="営業時間">
+  <span class="chip">営業時間・定休日</span>
+  <div>平日</div><div>10:00 - 19:00</div>
+  <div>土日</div><div>10:00 - 18:00</div>
+  <div>定休日</div><div>水曜</div>
+</div>
+
+  </figure>
+</section>
+
 
     <!-- ===== メニュー ===== -->
     <section id="menu" class="container" aria-labelledby="menu-title">
@@ -154,16 +72,16 @@
             <div class="price">¥480</div>
           </div>
         </article>
-        <article class="card menu-item" aria-label="カフェモカ">
-          <img src="images/mocha.jpg" alt="カフェモカの写真" />
+        <article class="card menu-item" aria-label="ワッフル">
+          <img src="images/waffle.jpg" alt="ワッフルの写真" />
           <div class="body">
-            <h3 style="margin:6px 0 6px;font-family:'Yuji Syuku',serif;color:#3b241f">カフェモカ</h3>
-            <p class="lead">ビターと甘みのバランスが心地よい定番。</p>
-            <div class="price">¥580</div>
+            <h3 style="margin:6px 0 6px;font-family:'Yuji Syuku',serif;color:#3b241f">ワッフル</h3>
+            <p class="lead">アイスもフルーツも、自分好みにカスタマイズ！</p>
+            <div class="price">¥780</div>
           </div>
         </article>
         <article class="card menu-item" aria-label="ベイクドチーズケーキ">
-          <img src="images/cake.jpg" alt="ベイクドチーズケーキの写真" />
+          <img src="images/cheesecake2.jpg" alt="ベイクドチーズケーキの写真" />
           <div class="body">
             <h3 style="margin:6px 0 6px;font-family:'Yuji Syuku',serif;color:#3b241f">ベイクドチーズケーキ</h3>
             <p class="lead">珈琲と相性のよい、しっかり食感。</p>
@@ -216,7 +134,7 @@
   <!-- ===== フッター ===== -->
   <footer role="contentinfo">
     <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-      <small>© だんご喫茶</small>
+      <small>© いぐお喫茶</small>
       <div class="sns" aria-label="SNSリンク">
         <a href="#">Instagram</a>
         <a href="#">TikTok</a>

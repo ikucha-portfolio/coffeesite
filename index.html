@@ -99,25 +99,52 @@
       </div>
     </section>
 
-    <!-- ===== お店について ===== -->
-    <section id="about" class="container" aria-labelledby="about-title">
-      <h2 id="about-title">お店について</h2>
-      <div class="about card" aria-label="店主紹介とストーリー">
-        <div>
-          <div class="owner-quote">
-            <img src="images/tennsyu2.jpg" alt="だんご喫茶の店主" class="owner-photo" />
-            <p class="bubble" aria-label="店主の一言">気軽によっていってや、ええ時間になるで</p>
-          </div>
-          <div style="margin-top:14px">
-            <h3>こだわりの一杯を、静かに。</h3>
-            <p class="lead">深煎りのブレンドと、ミルクたっぷりのラテ。素材と抽出を丁寧に、派手さよりも落ち着きと余韻を大切にしています。はじめての方も、気軽にどうぞ。</p>
-          </div>
-        </div>
-        <figure>
-          <img src="images/shop.jpg" alt="店内または外観の様子" style="width:100%;height:100%;object-fit:cover;border-radius:12px" />
-        </figure>
+    <!-- ===== こだわり ===== -->
+<section id="commitment" class="container" aria-labelledby="commitment-title">
+  <h2 id="commitment-title">こだわり</h2>
+
+  <article class="card feature-snap" aria-label="こだわり（横スクロール）">
+  <!-- ← 追加：矢印ボタン -->
+  <button class="snap-arrow prev" type="button" aria-label="前へ">‹</button>
+  <button class="snap-arrow next" type="button" aria-label="次へ">›</button>
+
+  <div class="snap-track" tabindex="0" aria-label="スライドを横にスクロール">
+    <!-- 1) 店主 -->
+    <section class="snap-item" id="feature-owner">
+      <img src="images/tennsyu2.jpg" alt="いぐお喫茶の店主" loading="lazy" />
+      <div class="snap-text">
+        <h3>店主</h3>
+        <p class="lead">気軽によっていってや、ええ時間になるで。派手さよりも落ち着きと余韻を大切に、一杯ずつ丁寧にお淹れします。</p>
       </div>
     </section>
+
+    <!-- 2) コーヒー豆 -->
+    <section class="snap-item" id="feature-beans">
+      <img src="images/coffeemame3.jpg" alt="こだわりのコーヒー豆" loading="lazy" />
+      <div class="snap-text">
+        <h3>コーヒー豆</h3>
+        <p class="lead">焙煎から抽出まで一貫管理。季節で配合を微調整し、苦味・甘味・香りのバランスを最大化します。</p>
+      </div>
+    </section>
+
+    <!-- 3) ミルク -->
+    <section class="snap-item" id="feature-milk">
+      <img src="images/bokuzyo.jpg" alt="こだわりのミルク" loading="lazy" />
+      <div class="snap-text">
+        <h3>ミルク</h3>
+        <p class="lead">コクはありつつ後味は軽やか。エスプレッソに合わせてスチーム温度と泡質を使い分けています。</p>
+      </div>
+    </section>
+  </div>
+
+  <nav class="snap-dots" aria-label="スライドナビ">
+    <a href="#feature-owner" aria-label="店主へ"></a>
+    <a href="#feature-beans" aria-label="コーヒー豆へ"></a>
+    <a href="#feature-milk" aria-label="ミルクへ"></a>
+  </nav>
+</article>
+
+
 
     <!-- ===== アクセス ===== -->
     <section id="access" class="container" aria-labelledby="access-title">
@@ -173,5 +200,23 @@
       statusEl.setAttribute('aria-label', open ? '本日営業中' : '本日は準備中');
     })();
   </script>
+
+  <script>
+  // こだわりスライダーの左右送り
+  (function(){
+    const track = document.querySelector('.feature-snap .snap-track');
+    const prev  = document.querySelector('.feature-snap .snap-arrow.prev');
+    const next  = document.querySelector('.feature-snap .snap-arrow.next');
+    if(!track || !prev || !next) return;
+
+    const scrollByOne = dir => {
+      const w = track.clientWidth; // 表示幅ぶん送る
+      track.scrollBy({ left: dir * w, behavior: 'smooth' });
+    };
+    prev.addEventListener('click', () => scrollByOne(-1));
+    next.addEventListener('click', () => scrollByOne( 1));
+  })();
+</script>
+
 </body>
 </html>

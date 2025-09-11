@@ -267,3 +267,139 @@ footer{ margin-top:36px; padding:26px 16px; background:#1f1411; color:#cdb197 }
 .header .status.is-closed{
   background:#a4453d;
 }
+
+/* カード自体の幅を絞って中央に */ 
+.feature-snap{ max-width: 900px; /* ← 好みで 860 / 960 に微調整OK */ 
+  margin-inline: auto; position: relative; /* 矢印の絶対配置用 */ 
+  padding: 0; /* 既に内側で padding しているので0でOK */ 
+}
+
+/* トラック（横に1枚ずつ並べて、横スク+スナップ） */
+.snap-track{
+  display: grid;
+  grid-auto-flow: column;     /* 横方向に連結 */
+  grid-auto-columns: 100%;    /* 1画面=1アイテム */
+  overflow-x: auto;           /* 横スクロールON */
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 24px;         /* 左右の内側余白 */
+
+}
+
+/* スライド内レイアウト + スナップ位置 */
+.snap-item{
+  scroll-snap-align: start;     /* ← これがないとピタッと止まらない */
+  display: grid;
+  grid-template-columns: 320px 1fr;  /* 画像:本文 */
+  gap: 20px;
+  align-items: center;
+}
+.snap-item img{ height: 240px; }      /* 画像少し大きめ */
+.snap-text{ max-width: 48ch; }        /* 1行が長すぎないよう調整 */
+
+/* 矢印ボタン */
+.snap-arrow{
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.15);
+  background: rgba(255,255,255,.85);
+  box-shadow: var(--shadow);
+  font-size: 22px; line-height: 1;
+  display: grid; place-items: center;
+  cursor: pointer;
+  z-index: 5;
+}
+.snap-arrow:hover{ background: #fff; }
+.snap-arrow.prev{ left: 6px; }
+.snap-arrow.next{ right: 6px; }
+
+/* モバイル：左右矢印は邪魔になりやすいので非表示（横スワイプで操作） */
+@media (max-width: 768px){
+  .snap-arrow{ display:none; }
+  .snap-item{ grid-template-columns: 1fr; }
+  .snap-item img{ height: 200px; }
+}
+
+/* ===== こだわり（横スライド）のバランス調整パッチ ===== */
+
+/* 1) 1画面＝1スライド＆中央寄せ・チラ見え防止 */
+.feature-snap{
+  max-width: 860px;              /* ← さらに少し細く（900→860） */
+  margin-inline: auto;
+  position: relative;
+  overflow: hidden;
+  padding: 0 16px;               /* ← カード左右にだけ内余白 */
+  box-sizing: border-box;
+}
+.snap-track{
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;                    /* ← 余白は .feature-snap 側で持つ */
+  margin: 0;
+}
+.snap-item{
+  scroll-snap-align: start;
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 300px 1fr;  /* ← 比率を詰めて文章スペースを確保 */
+  gap: 18px;
+  align-items: center;               /* ← 縦位置をそろえる */
+}
+
+/* 2) 画像と文字の“量感”をそろえる */
+.snap-item img{
+  width: 100%;
+  height: 220px;                     /* ← 画像トーンを少し控えめに */
+  object-fit: cover;
+  border-radius: 12px;
+}
+.snap-text{
+  max-width: 46ch;                   /* ← 1行の長さを制限して読みやすく */
+}
+.snap-text h3{
+  margin: 2px 0 6px;
+  font-family: var(--font-display);
+  color: #3b241f;
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.3;
+}
+.snap-text .lead{
+  color: var(--muted);               /* ← トーンを落として主張を調整 */
+  font-size: 0.98rem;
+  line-height: 1.8;
+  margin: 0;                         /* ← 余白は下だけで十分 */
+}
+.snap-text .lead + .lead{ margin-top: 8px; } /* 複数段落時 */
+
+/* 3) 矢印の当たり判定を少し外側に＆視覚の重心を中央へ */
+.snap-arrow{ transform: translateY(-50%); }  /* translate の標準記法 */
+.snap-arrow.prev{ left: 2px; }
+.snap-arrow.next{ right: 2px; }
+
+/* 4) ブレークポイントで微調整（大きい画面はゆったり） */
+@media (min-width: 1200px){
+  .feature-snap{ max-width: 920px; }
+  .snap-item{ grid-template-columns: 320px 1fr; gap: 22px; }
+  .snap-item img{ height: 240px; }
+  .snap-text{ max-width: 50ch; }
+}
+
+/* 5) モバイルは従来どおり縦積み＋スワイプ */
+@media (max-width: 768px){
+  .snap-item{ grid-template-columns: 1fr; gap: 12px; }
+  .snap-item img{ height: 200px; }
+  .snap-text{ max-width: none; }
+}
+

@@ -153,25 +153,58 @@
 
 
 
-    <!-- ===== アクセス ===== -->
-    <section id="access" class="container" aria-labelledby="access-title">
-      <h2 id="access-title">アクセス</h2>
-      <div class="access-grid">
-        <iframe class="map-embed card" title="Googleマップ" loading="lazy" allowfullscreen
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3240.952624021005!2d139.767125!3d35.681236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188bf0f7aab1fd%3A0x2d7b3b7b0!2z5p2x5Lqs6YO95rGf5ZCI!5e0!3m2!1sja!2sjp!4v1710000000000">
-        </iframe>
-        <div>
-          <div class="card" style="padding:16px">
-            <h3 style="font-family:'Yuji Syuku',serif;color:#3b241f">店舗情報</h3>
-            <p>住所：◯◯県◯◯市◯◯ 1-2-3</p>
-            <p>最寄り：◯◯駅から徒歩5分／駐車場2台あり</p>
-            <p>電話：012-345-6789</p>
-            <p class="lead">※ 営業時間や臨時休業はSNSでお知らせします。</p>
-          </div>
-        </div>
+    <section id="access" class="container">
+  <h2>アクセス</h2>
+
+  <div class="access-grid access-compact">
+    <!-- 左：地図 -->
+    <div class="mapwrap">
+      <iframe
+        class="map-embed"
+        src="https://www.google.com/maps?output=embed&q=東京駅"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        aria-label="いぐお喫茶の地図">
+      </iframe>
+
+      <a class="btn btn-ghost map-open"
+         href="https://maps.google.com/?q=東京駅"
+         target="_blank" rel="noopener">Googleマップで開く</a>
+    </div>
+
+    <!-- 右：情報カード -->
+    <aside class="access-card card">
+      <h3 class="access-title">店舗情報</h3>
+
+      <dl class="info-list">
+        <dt>住所</dt>
+        <dd><address>〇〇県〇〇市〇〇 1-2-3</address></dd>
+
+        <dt>最寄り</dt>
+        <dd>〇〇駅 徒歩5分／駐車場2台</dd>
+
+        <dt>電話</dt>
+        <dd><a href="tel:0123456789">012-345-6789</a></dd>
+      </dl>
+
+      <div class="hours-box">
+        <h4>営業時間</h4>
+        <p><time datetime="10:00">10:00</time>–<time datetime="18:00">18:00</time></p>
+        <p class="closed"><span class="pill">定休日 火・水</span></p>
       </div>
-    </section>
-  </main>
+
+      <div class="access-actions">
+        <a class="btn btn-accent"
+           href="https://www.google.com/maps/dir/?api=1&destination=東京駅"
+           target="_blank" rel="noopener">経路案内</a>
+        <a class="btn btn-ghost"
+           href="https://maps.google.com/?q=東京駅"
+           target="_blank" rel="noopener">地図を開く</a>
+      </div>
+    </aside>
+  </div>
+</section>
+
 
   <!-- ===== フッター ===== -->
   <footer role="contentinfo">

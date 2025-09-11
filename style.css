@@ -754,4 +754,97 @@ h2{ color: #bfa27a; }
   color: #111 !important;
 }
 .bubble::after{ border-top-color: #bfa27a !important; }
+/* 店主 = 1枚目のカードだけ、上を多めに見せる */
+.feature-snap .snap-track > .snap-item:nth-of-type(1) img{
+  object-position: 50% 15% !important;  /* 20% = かなり上寄せ。30〜35%でもOK */
+}
+
+/* モバイルはさらに上寄せ（画面が縦長で切れやすい） */
+@media (max-width:768px){
+  .feature-snap .snap-track > .snap-item:nth-of-type(1) img{
+    object-position: 50% 12% !important;
+  }
+}
+
+/* ==== Access：左マップ／右情報カード（黒テーマ対応） ==== */
+.access-grid.access-compact{
+  display:grid;
+  grid-template-columns: minmax(360px, 1.2fr) minmax(300px, .8fr);
+  gap: 20px;
+  align-items: start;
+}
+
+/* 地図を“コンパクト”に見せる */
+.mapwrap{ position: relative; }
+.map-embed{
+  width: 100%;
+  aspect-ratio: 4 / 3;           /* ← 縦を少し詰める：3/2 も好みで */
+  border: 0;
+  border-radius: var(--radius);
+  background: #000;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+/* 地図の右上に小さなボタン */
+.map-open{
+  position: absolute; right: 10px; top: 10px;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+/* 右の情報カード */
+.access-card{
+  background: var(--panel);
+  color: var(--ink-light);
+  padding: 16px 16px 18px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.access-title{
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  color: #bfa27a;               /* 渋ゴールド */
+  letter-spacing: .04em;
+}
+
+/* 定義リストできれいに整列 */
+.info-list{
+  display: grid;
+  grid-template-columns: 5.5em 1fr;
+  row-gap: 8px; column-gap: 10px;
+  margin: 8px 0 14px;
+}
+.info-list dt{
+  color: #bfa27a;
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+.info-list dd{ margin: 0; color: var(--ink-light); }
+.info-list a{ text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,.25); }
+
+/* 営業時間・定休日 */
+.hours-box h4{
+  margin: 10px 0 4px;
+  font-family: var(--font-display);
+  color: #bfa27a;
+  letter-spacing: .04em;
+}
+.hours-box time{ font-variant-numeric: tabular-nums; }
+.pill{
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #bfa27a; color: #111; font-weight: 700;
+}
+
+/* CTAボタン */
+.btn{ display:inline-block; padding:10px 14px; border-radius:10px; text-decoration:none; }
+.btn-accent{ background: var(--accent); color:#111; font-weight:700; }
+.btn-ghost{ background: transparent; color: var(--ink-light); border:1px solid rgba(255,255,255,.18); }
+
+/* モバイル：縦積み＋地図→情報の順 */
+@media (max-width: 920px){
+  .access-grid.access-compact{ grid-template-columns: 1fr; }
+  .access-card{ padding: 14px; }
+  .map-embed{ aspect-ratio: 3 / 2; } /* さらにコンパクト */
+}
 

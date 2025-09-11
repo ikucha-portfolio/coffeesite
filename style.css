@@ -77,7 +77,6 @@ h2{ font-size:clamp(22px,2.4vw,28px); font-weight:700; color:var(--latte-300) }
 }
 .menu-item .body{ padding:14px 16px }
 .price{ font-weight:800; color:var(--brown-900) }
-.price{ font-weight:800; color:var(--brown-900) }
 
 /* メニュー説明文を商品名と同じ色に */
 .menu-item .lead {
@@ -175,8 +174,10 @@ footer{ margin-top:36px; padding:26px 16px; background:#1f1411; color:#cdb197 }
   right:clamp(20px,4vw,60px);
   top:clamp(0px, 2vw, 16px);
   bottom:auto;
-  width:30%;            /* ← ここを45% → 35% に変更 */
-  max-width:480px;      /* ← 追加: カードが広がりすぎない上限 */
+  /* width:30%;  ← 現状の値とコメントが食い違っているので */
+  width:35%;      /* ← コメントどおりにするなら 35% に */
+  max-width:480px;
+  /* 以下同じ */
   background:rgba(0,0,0,.30);
   padding:20px;         /* ← 中の余白を少し調整してバランスUP */
   border-radius:12px 0 0 12px;

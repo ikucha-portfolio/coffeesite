@@ -30,7 +30,8 @@
       <a href="#about">お店について</a>
       <a href="#access">アクセス</a>
       <!-- ▼ ここにステータスを移動 -->
-      <span class="status">本日営業中</span>
+<span id="openStatus" class="status" aria-live="polite">本日営業中</span>
+
     </div>
   </nav>
 </header>
@@ -41,20 +42,21 @@
 <!-- ===== ヒーロー（写真と文字を重ねる） ===== -->
 <section class="hero" aria-label="ヒーロー">
   <figure class="hero-media is-overlay" aria-label="外観写真">
-    <img src="images/coffeeshop2.jpg" alt="だんご喫茶の外観写真" />
+    <img src="images/coffeeshop2.jpg" alt="いぐお喫茶の外観写真" loading="eager" />
     <div class="hero-copy">
       <h1 class="catch">味も空気も、<br>ここで決まりや</h1>
-       <p class="lead">ミルクたっぷりのカフェラテと、こだわりの珈琲。<br>初めての方も気軽に立ち寄れる、落ち着いた喫茶です。</p>
+      <p class="lead">ミルクたっぷりのカフェラテと、こだわりの珈琲。<br>初めての方も気軽に立ち寄れる、落ち着いた喫茶です。</p>
 
-<div class="hours" aria-label="営業時間">
-  <span class="chip">営業時間・定休日</span>
-  <div>平日</div><div>10:00 - 19:00</div>
-  <div>土日</div><div>10:00 - 18:00</div>
-  <div>定休日</div><div>水曜</div>
-</div>
-
+      <div class="hours" aria-label="営業時間">
+        <span class="chip">営業時間・定休日</span>
+        <div>平日</div><div>10:00 - 19:00</div>
+        <div>土日</div><div>10:00 - 18:00</div>
+        <div>定休日</div><div>水曜</div>
+      </div>
+    </div> <!-- ← hero-copy を閉じる -->
   </figure>
 </section>
+
 
 
     <!-- ===== メニュー ===== -->
@@ -103,7 +105,7 @@
       <div class="about card" aria-label="店主紹介とストーリー">
         <div>
           <div class="owner-quote">
-            <img src="images/owner.jpg" alt="だんご喫茶の店主" class="owner-photo" />
+            <img src="images/tennsyu2.jpg" alt="だんご喫茶の店主" class="owner-photo" />
             <p class="bubble" aria-label="店主の一言">気軽によっていってや、ええ時間になるで</p>
           </div>
           <div style="margin-top:14px">

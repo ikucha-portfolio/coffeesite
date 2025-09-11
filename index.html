@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>いぐお喫茶｜ミルクたっぷりカフェラテと珈琲</title>
-  <meta name="description" content="いぐお喫茶。ミルクたっぷりのカフェラテと、こだわりの珈琲。気軽によっていってや、ええ時間になるで。" />
+  <title>いぐおcoffee｜ミルクたっぷりカフェラテと珈琲</title>
+  <meta name="description" content="いぐおcoffee。ミルクたっぷりのカフェラテと、こだわりの珈琲。気軽によっていってや、ええ時間になるで。" />
   <!-- 筆書体（Google Fonts：悠々敷・Yuji Syuku）と本文用フォントを読み込み -->
   <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
@@ -23,7 +23,7 @@
   <nav class="nav" aria-label="主要ナビゲーション">
     <div class="logo">
       <span class="logo-mark" aria-hidden="true"></span>
-      <span class="brand">いぐお喫茶</span>
+      <span class="brand">いぐおcoffee</span>
     </div>
     <div class="links">
       <a href="#menu">メニュー</a>
@@ -40,21 +40,28 @@
   <main id="main">
 
 <!-- ===== ヒーロー（写真と文字を重ねる） ===== -->
-<section class="hero" aria-label="ヒーロー">
-  <figure class="hero-media is-overlay" aria-label="外観写真">
-    <img src="images/coffeeshop2.jpg" alt="いぐお喫茶の外観写真" loading="eager" />
-    <div class="hero-copy">
-      <h1 class="catch">味も空気も、<br>ここで決まりや</h1>
-      <p class="lead">ミルクたっぷりのカフェラテと、こだわりの珈琲。<br>初めての方も気軽に立ち寄れる、落ち着いた喫茶です。</p>
 
-      <div class="hours" aria-label="営業時間">
-        <span class="chip">営業時間・定休日</span>
-        <div>平日</div><div>10:00 - 19:00</div>
-        <div>土日</div><div>10:00 - 18:00</div>
-        <div>定休日</div><div>水曜</div>
-      </div>
-    </div> <!-- ← hero-copy を閉じる -->
-  </figure>
+<section class="hero-slider" aria-label="いぐお喫茶 ヒーロースライド">
+  <div class="hero-track">
+    <figure class="hero-slide" data-caption="いぐお喫茶の看板">
+      <img src="images/coffeeshop.jpg" alt="いぐお喫茶の看板" loading="eager" />
+      <figcaption class="hero-caption">ミルクたっぷりカフェラテ と こだわり珈琲</figcaption>
+    </figure>
+    <figure class="hero-slide" data-caption="落ち着いた内装">
+      <img src="images/coffeeshop2.jpg" alt="店内の内装" loading="lazy" />
+      <figcaption class="hero-caption">落ち着く空間でひと休み</figcaption>
+    </figure>
+    <figure class="hero-slide" data-caption="カフェラテ">
+      <img src="images/latte2.jpg" alt="カフェラテ" loading="lazy" />
+      <figcaption class="hero-caption">今日の一杯を、丁寧に。</figcaption>
+    </figure>
+  </div>
+
+  <!-- 操作UI -->
+  <button class="hero-nav hero-prev" aria-label="前の画像">←</button>
+  <button class="hero-nav hero-next" aria-label="次の画像">→</button>
+
+  <div class="hero-dots" role="tablist" aria-label="スライドの選択"></div>
 </section>
 
 
@@ -101,7 +108,7 @@
 
     <!-- ===== こだわり ===== -->
 <section id="commitment" class="container" aria-labelledby="commitment-title">
-  <h2 id="commitment-title">こだわり</h2>
+  <h2 id="commitment-title">お店について</h2>
 
   <article class="card feature-snap" aria-label="こだわり（横スクロール）">
   <!-- ← 追加：矢印ボタン -->
@@ -169,7 +176,7 @@
   <!-- ===== フッター ===== -->
   <footer role="contentinfo">
     <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
-      <small>© いぐお喫茶</small>
+      <small>© いぐおcoffee</small>
       <div class="sns" aria-label="SNSリンク">
         <a href="#">Instagram</a>
         <a href="#">TikTok</a>
@@ -217,6 +224,84 @@
     next.addEventListener('click', () => scrollByOne( 1));
   })();
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const slider  = document.querySelector('.hero-slider');
+  const track   = slider.querySelector('.hero-track');
+  const slides  = [...slider.querySelectorAll('.hero-slide')];
+  const prevBtn = slider.querySelector('.hero-prev');
+  const nextBtn = slider.querySelector('.hero-next');
+  const dotsBox = slider.querySelector('.hero-dots');
+
+  let index = 0;
+  let timer = null;
+  const INTERVAL = 5000; // 自動切替 5秒
+
+  // ドット生成
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', `スライド${i+1}`);
+    b.addEventListener('click', () => go(i, true));
+    dotsBox.appendChild(b);
+  });
+
+  function updateUI(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+    [...dotsBox.children].forEach((d, i) =>
+      d.setAttribute('aria-selected', i === index ? 'true' : 'false')
+    );
+  }
+
+  function go(i, user=false){
+    index = (i + slides.length) % slides.length;
+    updateUI();
+    if(user) restart(); // 手動操作でオートをリセット
+    // 次の画像を先読み（軽量プリロード）
+    const nextIdx = (index + 1) % slides.length;
+    const img = slides[nextIdx].querySelector('img');
+    if(img && img.loading === 'lazy') img.loading = 'eager';
+  }
+
+  function next(){ go(index + 1); }
+  function prev(){ go(index - 1); }
+
+  // 自動再生
+  function start(){ timer = setInterval(next, INTERVAL); }
+  function stop(){ clearInterval(timer); timer = null; }
+  function restart(){ stop(); start(); }
+
+  // 矢印
+  nextBtn.addEventListener('click', () => next());
+  prevBtn.addEventListener('click', () => prev());
+
+  // ホバーで一時停止
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+
+  // キーボード操作
+  slider.setAttribute('tabindex', '0');
+  slider.addEventListener('keydown', (e) => {
+    if(e.key === 'ArrowRight') next();
+    if(e.key === 'ArrowLeft')  prev();
+  });
+
+  // スワイプ（簡易）
+  let sx = 0, dx = 0;
+  slider.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; dx = 0; stop(); }, {passive:true});
+  slider.addEventListener('touchmove',  (e) => { dx = e.touches[0].clientX - sx; }, {passive:true});
+  slider.addEventListener('touchend',   () => {
+    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+    start();
+  });
+
+  // 初期化
+  updateUI();
+  start();
+});
+</script>
+
 
 </body>
 </html>

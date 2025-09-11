@@ -19,16 +19,17 @@
   /* フォント */
   --font-display:'Yuji Syuku',serif;
   --font-sans:'Noto Sans JP',system-ui,sans-serif;
+
+  /* ヒーローをページ中央に */
+  /* 好みで最大幅を決めてね */
+  --hero-maxw: 1080px; 
 }
 
 *{box-sizing:border-box}
 html,body{margin:0}
 html, body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility }
 body{
-  font-family:var(--font-sans);
-  color:var(--cream-50);
-  background:var(--brown-bg);
-  line-height:1.7; letter-spacing:.02em;
+  font-family: var(--font-display);
 }
 a{color:inherit}
 
@@ -251,6 +252,94 @@ footer{ margin-top:36px; padding:26px 16px; background:#1f1411; color:#cdb197 }
   color: var(--cream-50);   /* ← キャッチコピーと同じ色 */
 }
 
+/* 既存の .hero-slider を上書き */
+.hero-slider{
+  max-width: var(--hero-maxw);
+  margin-inline: auto;   /* ← 中央寄せ */
+  overflow: hidden;
+  /* もし親に左右パディングがあるなら無効化したい場合 */
+  /* padding-inline: 0; */
+}
+
+.hero-track{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform .6s ease;
+  /* トラックのズレ防止（念のため） */
+  gap: 0;
+  transform: translateX(calc(-1 * var(--slide-index, 0) * 100%));
+}
+
+.hero-slide{
+  position: relative;
+  min-width: 100%;
+  height: 100%;
+}
+
+.hero-slide img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-caption{
+  position: absolute;
+  left: clamp(12px, 6vw, 80px);
+  bottom: clamp(24px, 10vh, 140px);
+  color: var(--white,#fff);
+  font-family: var(--font-display, serif);
+  font-size: clamp(18px, 3.2vw, 40px);
+  line-height: 1.2;
+  text-shadow: 0 8px 24px rgba(0,0,0,.45);
+  background: linear-gradient(to right, rgba(0,0,0,.45), rgba(0,0,0,.1));
+  padding: .45em .75em;
+  border-radius: var(--radius, 12px);
+}
+
+/* 矢印 */
+.hero-nav{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  font-size: 1.6rem;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+}
+.hero-prev{ left: clamp(6px, 2vw, 20px); }
+.hero-next{ right: clamp(6px, 2vw, 20px); }
+.hero-nav:hover{ background: rgba(0,0,0,.6); }
+
+/* ドット */
+.hero-dots{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: clamp(8px, 3vh, 28px);
+  display: flex; gap: 10px;
+}
+.hero-dots button{
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255,255,255,.45);
+  cursor: pointer;
+}
+.hero-dots button[aria-selected="true"]{
+  background: #fff;
+  transform: scale(1.2);
+}
+
+/* モバイルで指スワイプの誤タップ防止 */
+.hero-slider button, .hero-dots button{ touch-action: manipulation; }
+
+
 /* ▼ ステータスバッジ（本日営業中）をヘッダー右上へ */
 .header .status{
   margin-left: 14px;        /* ナビの右側に少し余白をとる */
@@ -402,4 +491,267 @@ footer{ margin-top:36px; padding:26px 16px; background:#1f1411; color:#cdb197 }
   .snap-item img{ height: 200px; }
   .snap-text{ max-width: none; }
 }
+
+/* ==== Hero fix: 高さを与える or 比率で固定する ==== */
+
+/* どちらか1つを採用（A推奨） */
+
+/* A) 高さをクランプで固定（推奨） */
+.hero-slider{
+  height: clamp(360px, 56vh, 600px);
+}
+
+/* B) もしくは比率で固定（高さは自動）
+.hero-slider{
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+*/
+
+/* 100%高さが効くように子にも明示（保険） */
+.hero-track{ height: 100%; }
+.hero-slide{ height: 100%; }
+
+/* 画角を少し“引く”場合（任意） */
+:root{ --hero-scale: 0.94; }  /* 0.90〜0.98で微調整 */
+.hero-slide img{
+  object-fit: cover;
+  object-position: center 48%;
+  transform: scale(var(--hero-scale));
+  transform-origin: center center;
+}
+
+
+/* ===== Chic Black Theme (柔らかい黒ベース) ===== */
+:root{
+  --base-black: #121212;   /* 背景：真っ黒より少し柔らかい黒 */
+  --panel:      #1c1c1c;   /* カード等の面色：ベースより少し明るい */
+  --ink-light:  #f2ede7;   /* 文字：アイボリー寄りで読みやすく */
+  --accent:     #d7b899;   /* 見出し・飾り用ラテフォーム色 */
+}
+
+/* 全体 */
+body{
+  background: var(--base-black);
+  color: var(--ink-light);
+}
+
+/* ヘッダー・フッターも黒統一 */
+.header,
+footer{
+  background: var(--base-black) !important;
+  color: var(--ink-light);
+  border: none;
+}
+
+/* ヒーロー背景の茶色を消す */
+.hero-slider{
+  background: transparent !important;
+}
+.hero-caption{
+  color: var(--ink-light);
+  background: rgba(0,0,0,.45);
+  text-shadow: 0 6px 18px rgba(0,0,0,.5);
+}
+
+/* カードは少し浮かせる */
+.card{
+  background: var(--panel);
+  color: var(--ink-light);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,.5);
+}
+
+/* 見出し・アクセント */
+h2{
+  color: var(--accent);
+  font-family: var(--font-display);
+}
+
+/* ===== Typography 渋めスタイル ===== */
+
+/* 本文は読みやすいシンプルゴシック */
+body {
+  font-family: var(--font-sans); /* Noto Sans JP */
+  letter-spacing: 0.02em;
+  line-height: 1.8;
+  color: var(--ink-light);
+}
+
+/* 見出し・ロゴ・キャッチは Yuji Syuku で渋く */
+h1, h2, h3,
+.brand,
+.hero-caption,
+.catch {
+  font-family: var(--font-display); /* Yuji Syuku */
+  letter-spacing: 0.05em;  /* ゆったり目で上品に */
+  font-weight: 400;        /* 渋めに軽く */
+}
+
+/* 見出しカラーを落ち着いた金茶に */
+h2 {
+  color: #bfa27a;  /* 落ち着きある金茶 */
+}
+
+/* リード文や説明文は少しトーンダウン */
+.lead, .menu-item .lead {
+  color: rgba(242,237,231,.75);
+}
+/* ===== ① ヒーローのキャッチを馴染ませる ===== */
+
+/* 画像の下側に薄いスクリーンを敷く（文字の乗りを良くする） */
+.hero-slide{ position: relative; }
+.hero-slide::after{
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(to top,
+              rgba(0,0,0,.55) 0%,
+              rgba(0,0,0,.25) 35%,
+              rgba(0,0,0,0) 60%);
+  pointer-events:none;
+}
+
+/* キャプション自体も黒地になじむ質感に */
+.hero-caption{
+  color: var(--ink-light, #f2ede7);
+  background: rgba(0,0,0,.42);
+  border: 1px solid rgba(255,255,255,.06);
+  backdrop-filter: blur(3px) saturate(105%);
+  box-shadow: 0 10px 28px rgba(0,0,0,.55);
+  text-shadow: 0 4px 14px rgba(0,0,0,.55);
+  border-radius: 12px;
+  padding: .55em .9em;
+}
+
+/* 文字が強すぎるときは少し落とす（好みでON）
+.hero-caption{ color: rgba(242,237,231,.92); }
+*/
+
+/* ===== ② メニュー周り：統一トーンで読みやすく ===== */
+
+/* カード内のタイトル・本文・価格の色設計を黒ベース用に上書き */
+.menu-item .body h3,
+.menu-item h3{
+  color: var(--ink-light, #f2ede7);
+  font-family: var(--font-display);       /* 渋めにYuji */
+  letter-spacing: .04em;
+}
+
+/* 説明文はややトーンダウンだが十分なコントラストに */
+.menu-item .lead{
+  color: rgba(242,237,231,.82);
+}
+
+/* 価格は統一アクセント（渋い金茶）で視認性UP */
+.price{
+  color: #bfa27a;      /* 渋めゴールド */
+  font-weight: 700;
+  opacity: 1;          /* 念のため */
+}
+
+/* メニュー見出し/小見出しも同じアクセントで統一 */
+h2{ color: #bfa27a; }
+
+/* ドロップシャドウが強く暗く見える時は少し弱める（任意）
+.card{ box-shadow: 0 6px 18px rgba(0,0,0,.45); }
+*/
+
+/* ===== ゴールド系ラベルスタイル ===== */
+
+/* 商品名：アイボリーで可読性重視 */
+.menu-item h3 {
+  color: var(--ink-light, #f2ede7);
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+
+/* 店主・こだわりなどの小見出しをゴールド系に */
+.about h3,
+.snap-text h3 {
+  color: #bfa27a; /* 渋めゴールド */
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+
+/* バブルラベル（豆・ミルクなど） */
+.bubble {
+  background: #bfa27a; /* ゴールド */
+  color: #111;         /* 黒地に映える濃い文字 */
+  font-weight: 700;
+}
+.bubble::after {
+  border-top-color: #bfa27a;
+}
+
+/* 説明文（リード文）は弱めのアイボリー */
+.lead {
+  color: rgba(242,237,231,.82);
+}
+
+/* ===== 黒背景で沈んでいるテキスト色を修正 ===== */
+
+/* メニューの商品のタイトル */
+.menu-item h3,
+.menu-item .title {
+  color: var(--ink-light, #f2ede7); /* アイボリーでクッキリ */
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+
+/* 店舗情報や「アクセス」「お店について」などのセクション見出し */
+.about h3,
+.access h3 {
+  color: #bfa27a; /* ゴールド系でアクセント */
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+
+/* 店舗紹介文などの本文 */
+.about p,
+.access p {
+  color: rgba(242,237,231,.85); /* 読みやすいアイボリー */
+}
+
+/* バブルラベル（豆・ミルク）も再指定 */
+.bubble {
+  background: #bfa27a;  /* ゴールドベージュ */
+  color: #111;          /* 黒に映える濃色文字 */
+  font-weight: 700;
+}
+.bubble::after {
+  border-top-color: #bfa27a;
+}
+/* ==== FIX: 黒ベースで沈んでいる見出し・商品名を強制上書き ==== */
+
+/* メニューの商品名（カード内の h3 を確実に） */
+.menu-item .body h3,
+.menu-item h3{
+  color: var(--ink-light, #f2ede7) !important;
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+
+/* 「店舗情報」などセクションの見出し（about / access / こだわり） */
+.about h3,
+.access h3,
+.snap-text h3{
+  color: #bfa27a !important;  /* 渋ゴールド */
+  font-family: var(--font-display);
+  letter-spacing: .04em;
+}
+
+/* リード・説明文（暗く沈んで見えるのを持ち上げ） */
+.menu-item .lead,
+.about p,
+.access p,
+.snap-text .lead{
+  color: rgba(242,237,231,.86) !important;
+}
+
+/* 「豆・ミルク」などのバッジ（バブル） */
+.bubble{
+  background: #bfa27a !important;
+  color: #111 !important;
+}
+.bubble::after{ border-top-color: #bfa27a !important; }
 

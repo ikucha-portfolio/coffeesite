@@ -47,11 +47,7 @@ a{color:inherit}
   padding:20px 16px;
 }
 .logo{display:flex;align-items:center;gap:10px;font-weight:700}
-.logo-mark{
-  width:30px;height:30px;border-radius:9px;
-  background:linear-gradient(135deg,#5a3a31,#291a15);
-  box-shadow:inset 0 0 0 3px rgba(215,184,153,.6)
-}
+
 .brand{ font-family:var(--font-display); font-size:20px; letter-spacing:.06em }
 .header .links a{
   padding:.5rem .8rem; border-radius:12px; text-decoration:none; color:var(--cream-50);
@@ -769,7 +765,7 @@ h2{ color: #bfa27a; }
 /* ==== Access：左マップ／右情報カード（黒テーマ対応） ==== */
 .access-grid.access-compact{
   display:grid;
-  grid-template-columns: minmax(360px, 1.2fr) minmax(300px, .8fr);
+  grid-template-columns: minmax(360px, 0.8fr) minmax(300px, 1.0fr);
   gap: 20px;
   align-items: start;
 }
@@ -778,7 +774,7 @@ h2{ color: #bfa27a; }
 .mapwrap{ position: relative; }
 .map-embed{
   width: 100%;
-  aspect-ratio: 4 / 3;           /* ← 縦を少し詰める：3/2 も好みで */
+  aspect-ratio: 16 / 10;           /* ← 縦を少し詰める：3/2 も好みで */
   border: 0;
   border-radius: var(--radius);
   background: #000;
@@ -805,6 +801,17 @@ h2{ color: #bfa27a; }
   color: #bfa27a;               /* 渋ゴールド */
   letter-spacing: .04em;
 }
+
+/* === Access：右カードを小さめに固定 === */
+.access-grid.access-compact{
+  grid-template-columns: minmax(360px, 0.8fr) fit-content(520px); /* 右に上限 */
+}
+
+.access-card{
+  max-width: 520px;   /* 480〜560pxで微調整 */
+  justify-self: end;  /* 右端に寄せて整列 */
+}
+
 
 /* 定義リストできれいに整列 */
 .info-list{
@@ -846,5 +853,313 @@ h2{ color: #bfa27a; }
   .access-grid.access-compact{ grid-template-columns: 1fr; }
   .access-card{ padding: 14px; }
   .map-embed{ aspect-ratio: 3 / 2; } /* さらにコンパクト */
+}
+
+/* ==== Access：左右の高さをそろえる ==== */
+.access-grid.access-compact{
+  align-items: stretch;            /* ← 行の高さまで子を伸ばす */
+}
+
+/* 子要素を行の高さにフィット */
+.mapwrap,
+.access-card{
+  height: 100%;
+}
+
+/* カードの中身を上下に気持ちよく配置 */
+.access-card{
+  display: flex;
+  flex-direction: column;
+}
+.access-actions{ margin-top: auto; } /* CTAを下に寄せる */
+
+/* モバイルでは自然な高さに戻す */
+@media (max-width: 920px){
+  .access-grid.access-compact{ align-items: start; }
+  .mapwrap, .access-card{ height: auto; }
+  .access-card{ display: block; }
+}
+
+/* ==== ① 営業情報を見やすく（レイアウト＆タイポ強化） ==== */
+.hours-box{
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.05);              /* 色味はそのまま系の薄幕 */
+  border: 1px solid rgba(255,255,255,.12);
+  display: grid;
+  grid-template-columns: auto 1fr;                /* ラベル／内容の2列 */
+  column-gap: 10px; row-gap: 6px;
+}
+.hours-box h4{
+  grid-column: 1 / -1;                            /* 見出しは1行で */
+  margin: 0 0 4px;
+}
+.hours-box p{
+  margin: 0;
+  display: flex; align-items: center; gap: 8px;
+  line-height: 1.6;
+}
+.hours-box time{
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  font-weight: 700;                                /* 数字をクッキリ */
+}
+
+
+/* 定休日ピルは少しだけ小ぶり＆上質に */
+.pill{
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+/* ==== ② アクセスボタン：フラット＆上品に ==== */
+.access-actions{ display:flex; gap:10px; margin-top: 14px; }
+.access-actions .btn{
+  flex: 1;                                         /* 同じ幅に並べる */
+  display: inline-flex; align-items:center; justify-content:center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform .08s ease, filter .2s ease, background .2s ease, border-color .2s ease;
+  will-change: transform;
+  min-height: 44px;                                /* タップしやすく */
+}
+
+/* 経路案内ボタン（アクセント） */
+.btn-accent{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.06)), var(--accent);
+  color: #111;
+  border: 1px solid rgba(0,0,0,.18);
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+.btn-accent:hover{ transform: translateY(-1px); filter: brightness(1.04); }
+.btn-accent:active{ transform: translateY(0); }
+
+/* 地図を開くボタン（ゴースト） */
+.btn-ghost{
+  background: transparent;
+  color: var(--ink-light);
+  border: 1px solid rgba(255,255,255,.18);
+}
+.btn-ghost:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.30); }
+
+/* キーボード操作の視認性 */
+.access-actions .btn:focus-visible{
+  outline: 2px solid rgba(255,255,255,.5);
+  outline-offset: 2px;
+  border-color: rgba(255,255,255,.35);
+}
+
+/* ===== Access：超シンプル版（囲み/装飾なし） ===== */
+
+/* 右カード自体の囲みを消す */
+.access-card{
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  max-width: 520px;              /* 必要なら 480〜560pxで微調整 */
+  justify-self: end;
+}
+
+/* タイトルはそのまま（色だけ現状維持）。余白だけ少し */
+.access-title{ margin: 0 0 8px !important; }
+
+/* 定義リスト：線も枠も無し、行間だけで整える */
+.info-list{
+  grid-template-columns: 6em 1fr !important; /* ラベル/内容の比率だけ維持 */
+  row-gap: 6px !important; column-gap: 12px !important;
+  margin: 6px 0 10px !important;
+}
+.info-list > *{ padding-block: 0 !important; border-bottom: none !important; }
+.info-list dt{ white-space: nowrap; }
+
+/* 営業情報：囲み/ピル/アイコンを完全撤去してテキストだけ */
+.hours-box{
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 8px !important;
+  display: block !important;
+}
+.hours-box h4{ margin: 0 0 4px !important; }
+.hours-box p{
+  margin: 0 0 4px !important;
+  display: inline;                /* 1行で並べたい場合 */
+}
+.hours-box .closed{ margin-left: 12px; }  /* 「定休日 …」を横に続ける */
+.pill{
+  background: none !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 600 !important;    /* 文字だけ少し太めに */
+}
+
+/* アクセスボタン：デザインをやめて“ただのリンク”に */
+.access-actions{ display: flex; gap: 14px; margin-top: 8px !important; }
+.access-actions .btn,
+.btn-accent, .btn-ghost{
+  all: unset;                     /* 既存のボタン装飾を全解除 */
+  cursor: pointer;
+  color: var(--ink-light);
+  text-decoration: underline;
+}
+.access-actions .btn:focus-visible{
+  outline: 2px solid rgba(255,255,255,.45);
+  outline-offset: 2px;
+}
+
+/* マップの囲み（角丸/影）も外す */
+.map-embed{
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* 「Googleマップで開く」もボタン風をやめてテキストリンクに */
+.map-open{
+  position: static !important;
+  display: inline-block;
+  margin-top: 6px;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--ink-light);
+  text-decoration: underline;
+  font-size: 0.95rem;
+}
+
+/* ==== Access：余白＆行間だけ見やすく ==== */
+:root{
+  --access-gap-x: clamp(24px, 4vw, 48px); /* 地図 ↔ アクセス情報 の横間隔 */
+  --access-gap-y: clamp(10px, 2.5vw, 24px); /* セクション内の縦間隔 */
+  --info-label-w: 6.2em;  /* ラベル列の見た目幅 */
+  --info-row-gap: 10px;   /* アクセス情報の各項目の間隔 */
+  --info-line: 1.8;       /* 本文の行間 */
+  --access-title-mb: 10px;
+}
+
+/* 地図と右カードの“間”を広げる */
+.access-grid.access-compact{
+  column-gap: var(--access-gap-x);
+  row-gap: var(--access-gap-y);
+}
+
+/* 見出しと本文の間にひと呼吸 */
+.access-title{ margin: 0 0 var(--access-title-mb); }
+
+/* アクセス情報（定義リスト）の行間＆項目間 */
+.info-list{
+  grid-template-columns: var(--info-label-w) 1fr !important;
+  row-gap: var(--info-row-gap) !important;
+}
+.info-list dt,
+.info-list dd,
+.access-card p,
+.access-card address{
+  line-height: var(--info-line);
+}
+
+/* 営業情報は縦並びで行間を確保（装飾なしのまま） */
+.hours-box p{
+  display: block !important;
+  margin: 2px 0 6px !important;
+  line-height: var(--info-line);
+}
+
+/* モバイルは少しだけタイトに */
+@media (max-width: 920px){
+  :root{
+    --access-gap-x: 18px;
+    --info-row-gap: 8px;
+    --info-line: 1.7;
+  }
+}
+
+/* ==== Access：地図 ↔ アクセス情報 の間を広げる ==== */
+
+/* まずは横だけガッと広げる（推奨） */
+.access-grid.access-compact{
+  column-gap: clamp(32px, 6vw, 96px) !important;  /* ← お好みで上限を80〜112pxに */
+}
+
+/* 既存で `gap: 20px;` が効いていると変化が弱い時は、まとめて上書き */
+.access-grid.access-compact{
+  row-gap: 16px !important;                        /* 縦は適度に */
+  column-gap: clamp(32px, 6vw, 96px) !important;   /* 横はしっかり */
+}
+
+/* ワイド画面でさらに余白を出したい場合（任意） */
+@media (min-width: 1200px){
+  .access-grid.access-compact{
+    column-gap: clamp(48px, 8vw, 128px) !important;
+  }
+}
+
+/* それでも窮屈に見えるときの補助（右カードを少しだけ離す） */
+.access-card{
+  margin-left: clamp(8px, 2.5vw, 24px);  /* ← gapに“足し算”する感じ */
+
+}
+
+/* ===== Gold Status Badge（ヘッダー右上） ===== */
+.header .status{
+  --gold: #bfa27a;      /* ベース金茶 */
+  --gold-hi: #d9c6a3;   /* ハイライト */
+  --gold-deep:#8e724f;  /* 濃いめ */
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold));
+  color: #111;                           /* 金×黒で読みやすく */
+  border: 1px solid rgba(0,0,0,.22);
+  box-shadow: 0 8px 22px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25);
+  font-family: var(--font-sans);         /* 読みやすい方で */
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-shadow: none;
+  transition: filter .2s ease, transform .08s ease;
+}
+.header .status::before{
+  content:"";
+  width: 8px; height: 8px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff 0 14%, #f2e3c8 28%, var(--gold-hi) 45%, var(--gold) 62%, var(--gold-deep) 100%);
+  box-shadow: 0 0 8px rgba(191,162,122,.55);
+}
+.header .status:hover{ filter: brightness(1.04); transform: translateY(-1px); }
+
+/* 休業時（色味だけ落として上品に） */
+.header .status.is-closed{
+  background: linear-gradient(180deg, #4b2e2b, #3d2422);
+  color: #f2ede7;
+  border: 1px solid rgba(0,0,0,.35);
+  box-shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.header .status.is-closed::before{
+  background: radial-gradient(circle at 30% 30%, #fff 0 10%, #ffb9ad 26%, #e67d6e 56%, #b44b3e 100%);
+  box-shadow: 0 0 8px rgba(230,125,110,.42);
+}
+
+/* ラベルを白に */
+.info-list dt[data-i="pin"],
+.info-list dt[data-i="train"],
+.info-list dt[data-i="tel"]{
+  color: var(--ink-light, #f2ede7) !important;
+}
+/* 対応する内容も白に */
+.info-list dt[data-i="pin"]   + dd,
+.info-list dt[data-i="train"] + dd,
+.info-list dt[data-i="tel"]   + dd{
+  color: var(--ink-light, #f2ede7) !important;
+}
+/* 電話リンクの色と下線も白系に */
+.info-list dt[data-i="tel"] + dd a{
+  color: var(--ink-light, #f2ede7) !important;
+  border-bottom-color: rgba(255,255,255,.35) !important;
 }
 

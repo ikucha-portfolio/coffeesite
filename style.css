@@ -1,1165 +1,236 @@
 /* =====================
-   いぐお喫茶 style.css（RESET 完全版）
+   いぐお喫茶  Clean CSS
    ===================== */
 
-/* ===== 変数 ===== */
+/* ===== Variables ===== */
 :root{
-  --brown-bg:#2a1b16;
-  --brown-900:#3b241f;
-  --latte-300:#E3C7A8;
-  --latte-200:#D7B899;
-  --cream-50:#F6F1E7;
-  --ink:#221915;
-  --muted:#6f6159;
-  --white:#fff;
-  --maxw:1080px;
-  --radius:16px;
-  --shadow:0 14px 40px rgba(0,0,0,.25);
+  /* Theme */
+  --base-black:#121212;
+  --panel:#1c1c1c;
+  --ink-light:#f2ede7;
+  --accent:#bfa27a; /* 渋い金茶 */
 
-  /* フォント */
+  /* Layout */
+  --maxw:1080px;
+  --hero-maxw:1080px;
+  --radius:16px;
+
+  /* Fonts */
   --font-display:'Yuji Syuku',serif;
   --font-sans:'Noto Sans JP',system-ui,sans-serif;
 
-  /* ヒーローをページ中央に */
-  /* 好みで最大幅を決めてね */
-  --hero-maxw: 1080px; 
+  /* Hero */
+  --hero-scale:.94;     /* 0.90–0.98 で微調整 */
 }
 
-*{box-sizing:border-box}
-html,body{margin:0}
-html, body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility }
+/* ===== Base / Reset (minimum) ===== */
+*{ box-sizing:border-box; }
+html,body{ margin:0; }
+html,body{ -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+a{ color:inherit; }
+
 body{
-  font-family: var(--font-display);
+  background:var(--base-black);
+  color:var(--ink-light);
+  font-family:var(--font-sans);
+  line-height:1.8;
+  letter-spacing:.02em;
 }
-a{color:inherit}
 
-/* ===== ヘッダー ===== */
-.header{
-  position:sticky; top:0; z-index:20;
-  background:
-    linear-gradient(rgba(43,30,25,.7), rgba(43,30,25,.7)),
-    url("images/coffeemame2.jpg") center/cover no-repeat;
-  border-bottom:1px solid rgba(227,199,168,.25);
-}
+/* Containers & Headings */
+.container{ max-width:var(--maxw); margin:0 auto; padding:28px 16px; }
+h1,h2,h3{ margin:0 0 12px; line-height:1.3; }
+h2{ font-family:var(--font-display); color:var(--accent); font-size:clamp(22px,2.4vw,28px); }
+
+/* ===== Header ===== */
+.header{ position:sticky; top:0; z-index:20; background:var(--base-black); }
 .nav{
   max-width:var(--maxw); margin:auto;
   display:flex; align-items:center; justify-content:space-between;
   padding:20px 16px;
 }
-.logo{display:flex;align-items:center;gap:10px;font-weight:700}
-
-.brand{ font-family:var(--font-display); font-size:20px; letter-spacing:.06em }
+.logo{ display:flex; align-items:center; gap:10px; font-weight:700; }
+.logo-mark{ display:none; } /* 要望：茶色いマークは非表示 */
+.brand{ font-family:var(--font-display); font-size:20px; letter-spacing:.06em; }
 .header .links a{
-  padding:.5rem .8rem; border-radius:12px; text-decoration:none; color:var(--cream-50);
-  font-family:var(--font-display); letter-spacing:.06em; font-weight:400; font-feature-settings:"palt" 1;
+  padding:.5rem .8rem; border-radius:12px; text-decoration:none;
+  color:var(--ink-light); font-family:var(--font-display); letter-spacing:.06em;
 }
-.header .links a:hover{ background:rgba(215,184,153,.18) }
+.header .links a:hover{ background:rgba(255,255,255,.08); }
 
-/* ===== セクション共通 ===== */
-.container{ max-width:var(--maxw); margin:0 auto; padding:28px 16px }
-h1,h2,h3{ line-height:1.3; margin:0 0 12px }
-h2{ font-size:clamp(22px,2.4vw,28px); font-weight:700; color:var(--latte-300) }
+/* Status badge（営業中/休業中） */
+.header .status{
+  --gold:#bfa27a; --gold-hi:#d9c6a3; --gold-deep:#8e724f;
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 14px; border-radius:999px;
+  background:linear-gradient(180deg,var(--gold-hi),var(--gold));
+  color:#111; border:1px solid rgba(0,0,0,.22);
+  box-shadow:0 8px 22px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25);
+  font-weight:700; letter-spacing:.02em;
+  transition:filter .2s ease, transform .08s ease;
+}
+.header .status::before{
+  content:""; width:8px; height:8px; border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #fff 0 14%, #f2e3c8 28%, var(--gold-hi) 45%, var(--gold) 62%, var(--gold-deep) 100%);
+  box-shadow:0 0 8px rgba(191,162,122,.55);
+}
+.header .status:hover{ filter:brightness(1.04); transform:translateY(-1px); }
+.header .status.is-closed{
+  background:linear-gradient(180deg,#4b2e2b,#3d2422); color:var(--ink-light);
+  border:1px solid rgba(0,0,0,.35); box-shadow:0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.header .status.is-closed::before{
+  background:radial-gradient(circle at 30% 30%, #fff 0 10%, #ffb9ad 26%, #e67d6e 56%, #b44b3e 100%);
+  box-shadow:0 0 8px rgba(230,125,110,.42);
+}
+
+/* ===== Hero Slider ===== */
+.hero{ max-width:var(--hero-maxw); margin:0 auto; padding:0 16px; }
+.hero-slider{ max-width:var(--hero-maxw); margin-inline:auto; overflow:hidden;
+  height:clamp(360px,56vh,600px); }
+.hero-track{
+  display:flex; height:100%; gap:0; transition:transform .6s ease;
+  transform:translateX(calc(-1 * var(--slide-index,0) * 100%));
+}
+.hero-slide{ position:relative; min-width:100%; height:100%; }
+.hero-slide img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  object-position:center 48%; transform:scale(var(--hero-scale));
+  transform-origin:center center;
+}
+/* 文字が乗る下部を僅かに暗く */
+.hero-slide::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,.25) 35%, rgba(0,0,0,0) 60%);
+  pointer-events:none;
+}
+.hero-caption{
+  position:absolute; left:clamp(12px,6vw,80px); bottom:clamp(24px,10vh,140px);
+  color:var(--ink-light); background:rgba(0,0,0,.42);
+  border:1px solid rgba(255,255,255,.06); border-radius:12px;
+  padding:.55em .9em; font-family:var(--font-display); line-height:1.2;
+  box-shadow:0 10px 28px rgba(0,0,0,.55); text-shadow:0 4px 14px rgba(0,0,0,.55);
+}
+/* arrows & dots（既存HTML想定） */
+.hero-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  border:0; background:rgba(0,0,0,.45); color:#fff;
+  width:44px; height:44px; border-radius:50%; font-size:1.6rem; cursor:pointer;
+  backdrop-filter:blur(2px);
+}
+.hero-prev{ left:clamp(6px,2vw,20px); } .hero-next{ right:clamp(6px,2vw,20px); }
+.hero-nav:hover{ background:rgba(0,0,0,.6); }
+.hero-dots{ position:absolute; left:50%; transform:translateX(-50%);
+  bottom:clamp(8px,3vh,28px); display:flex; gap:10px; }
+.hero-dots button{
+  width:9px; height:9px; border-radius:50%; border:0; background:rgba(255,255,255,.45); cursor:pointer;
+}
+.hero-dots button[aria-selected="true"]{ background:#fff; transform:scale(1.2); }
+
+@media (max-width:768px){
+  .hero-caption{ left:50%; transform:translateX(-50%); bottom:20px; text-align:center; }
+}
+
+/* ===== Cards / Menu ===== */
 .card{
-  background:var(--cream-50); color:var(--ink);
-  border-radius:var(--radius); box-shadow:var(--shadow);
-  border:1px solid rgba(227,199,168,.35);
+  background:var(--panel); color:var(--ink-light);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--radius);
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
 }
-.lead{ color:var(--muted) }
-
-/* ===== メニュー ===== */
-.menu-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px }
+.menu-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
 .menu-item img{
   width:100%; height:170px; object-fit:cover;
   border-top-left-radius:var(--radius); border-top-right-radius:var(--radius);
 }
-.menu-item .body{ padding:14px 16px }
-.price{ font-weight:800; color:var(--brown-900) }
+.menu-item .body{ padding:14px 16px; }
+.menu-item h3{ color:var(--ink-light); font-family:var(--font-display); letter-spacing:.04em; }
+.menu-item .lead{ color:rgba(242,237,231,.82); }
+.price{ color:var(--accent); font-weight:700; }
 
-/* メニュー説明文を商品名と同じ色に */
-.menu-item .lead {
-  color: #3b241f;
+/* ===== こだわり（横スナップ） ===== */
+.feature-snap{ max-width:860px; margin-inline:auto; position:relative; overflow:hidden; padding:0 16px; }
+.snap-track{
+  display:grid; grid-auto-flow:column; grid-auto-columns:100%;
+  overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+.snap-item{
+  scroll-snap-align:start; width:100%; box-sizing:border-box;
+  display:grid; grid-template-columns:300px 1fr; gap:18px; align-items:center;
+}
+.snap-item img{ width:100%; height:220px; object-fit:cover; border-radius:12px; }
+.snap-text{ max-width:46ch; }
+.snap-text h3{ margin:2px 0 6px; font-family:var(--font-display); color:var(--accent); font-size:clamp(18px,2.2vw,22px); line-height:1.3; }
+.snap-text .lead{ color:rgba(242,237,231,.82); line-height:1.8; }
+@media (min-width:1200px){
+  .feature-snap{ max-width:920px; }
+  .snap-item{ grid-template-columns:320px 1fr; gap:22px; }
+  .snap-item img{ height:240px; }
+  .snap-text{ max-width:50ch; }
+}
+@media (max-width:768px){
+  .snap-item{ grid-template-columns:1fr; gap:12px; }
+  .snap-item img{ height:200px; }
+  .snap-text{ max-width:none; }
+}
+/* 店主（1枚目）は上を多めに見せる */
+.feature-snap .snap-track > .snap-item:nth-of-type(1) img{ object-position:50% 15%; }
+@media (max-width:768px){
+  .feature-snap .snap-track > .snap-item:nth-of-type(1) img{ object-position:50% 12%; }
 }
 
-/* ===== お店について ===== */
-.about{ display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center; padding:16px }
-.owner-quote{ display:flex; align-items:center; gap:14px }
-.owner-photo{ width:120px; height:auto; object-fit:cover; border-radius:10px; border:2px solid var(--latte-200) }
-.bubble{
-  position:relative; display:inline-block; background:var(--latte-300); color:#2a1c16;
-  padding:10px 14px; border-radius:12px; font-weight:700;
+/* ===== Access（地図＋アクセス情報：シンプル） ===== */
+.access-grid.access-compact{
+  display:grid;
+  grid-template-columns:minmax(360px,0.8fr) fit-content(520px);
+  align-items:stretch;
+  column-gap:clamp(32px,6vw,96px);
+  row-gap:16px;
 }
-.bubble::after{
-  content:""; position:absolute; left:18px; top:100%; width:0; height:0;
-  border:10px solid transparent; border-top-color:var(--latte-300);
+.mapwrap{ position:relative; }
+.map-embed{ width:100%; aspect-ratio:16/10; border:0; border-radius:0; box-shadow:none; background:transparent; }
+.access-card{ padding:0; max-width:520px; justify-self:end; display:flex; flex-direction:column; background:transparent; border:none; box-shadow:none; }
+
+.access-title{ margin:0 0 10px; font-family:var(--font-display); color:var(--accent); letter-spacing:.04em; }
+
+/* 定義リスト（住所/最寄り/電話ほか） */
+.info-list{
+  display:grid; grid-template-columns:6.2em 1fr;
+  column-gap:12px; row-gap:10px; margin:6px 0 10px;
 }
-.about h3{ font-family:var(--font-display); color:#3b241f }
+.info-list dt{ white-space:nowrap; color:var(--accent); font-family:var(--font-display); letter-spacing:.04em; }
+.info-list dd{ margin:0; color:var(--ink-light); line-height:1.8; }
+.info-list a{ text-decoration:none; border-bottom:1px dotted rgba(255,255,255,.25); }
 
-/* ===== アクセス ===== */
-.access-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:18px; align-items:start }
-.map-embed{ aspect-ratio:16/10; width:100%; border:0; border-radius:var(--radius) }
+/* 要望：住所/最寄り/電話は白で強調（data-i があれば優先） */
+.info-list dt[data-i="pin"], .info-list dt[data-i="train"], .info-list dt[data-i="tel"]{ color:var(--ink-light); }
+.info-list dt[data-i="pin"]+dd, .info-list dt[data-i="train"]+dd, .info-list dt[data-i="tel"]+dd{ color:var(--ink-light); }
+.info-list dt[data-i="tel"]+dd a{ color:var(--ink-light); border-bottom-color:rgba(255,255,255,.35); }
+/* data-i が無い場合のフォールバック（1=住所,2=最寄り,3=電話の順前提） */
+.info-list dt:nth-of-type(1), .info-list dt:nth-of-type(2), .info-list dt:nth-of-type(3){ color:var(--ink-light); }
+.info-list dt:nth-of-type(1)+dd, .info-list dt:nth-of-type(2)+dd, .info-list dt:nth-of-type(3)+dd{ color:var(--ink-light); }
+.info-list dt:nth-of-type(3)+dd a{ color:var(--ink-light); border-bottom-color:rgba(255,255,255,.35); }
 
-/* ===== フッター ===== */
-footer{ margin-top:36px; padding:26px 16px; background:#1f1411; color:#cdb197 }
-.sns{ display:flex; gap:10px; flex-wrap:wrap }
-.sns a{ text-decoration:none; background:#3a241f; color:#eadfce; padding:6px 10px; border-radius:10px }
+/* 営業情報（装飾なしのテキストだけ） */
+.hours-box{ margin-top:8px; }
+.hours-box h4{ margin:0 0 4px; font-family:var(--font-display); color:var(--accent); letter-spacing:.04em; }
+.hours-box p{ margin:2px 0 6px; }
 
-/* ===== スキップリンク ===== */
-.skip-link{ position:absolute; left:-999px; top:auto; width:1px; height:1px; overflow:hidden }
-.skip-link:focus{ left:10px; top:10px; width:auto; height:auto; background:#000; color:#fff; padding:8px; border-radius:8px }
-
-/* ===== レスポンシブ（共通） ===== */
+/* モバイル：縦積み */
 @media (max-width:920px){
-  .about{ grid-template-columns:1fr }
-  .access-grid{ grid-template-columns:1fr }
+  .access-grid.access-compact{ grid-template-columns:1fr; }
 }
 
-/* =========================
-   ヒーロー：右半分に黒帯＋文章は「黒帯ごと上配置」
-   ========================= */
+/* ===== Footer ===== */
+footer{ margin-top:36px; padding:26px 16px; background:var(--base-black); color:rgba(255,255,255,.75); }
+.sns{ display:flex; gap:10px; flex-wrap:wrap; }
+.sns a{ text-decoration:none; background:#2a2a2a; color:#eadfce; padding:6px 10px; border-radius:10px; }
 
-   /* セクション自体も他と同じ枠に */
-.hero{
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding: 0 16px;
+/* ===== A11y / Nice polish ===== */
+:where(a,button,.btn):focus-visible{ outline:2px solid rgba(255,255,255,.55); outline-offset:2px; }
+:where(h2,h3,#access){ scroll-margin-top:84px; }
+:where(a){ text-underline-offset:3px; text-decoration-thickness:.06em; }
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
 }
-
-.hero-media.is-overlay{
-  position: relative;
-  width: 100%;
-  min-height: max(60svh, 500px); /* ← 縦幅は短いままキープ */
-  padding-bottom: 32px;
-  overflow: hidden;
-
-  /* 枠は削除またはコメントアウト */
-  /* border-radius: var(--radius); */
-  /* border: 1px solid rgba(227,199,168,.35); */
-  /* box-shadow: var(--shadow); */
-}
-
-
-/* PC用デフォルト */
-.hero-media.is-overlay img{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 40% 50%; /* ← デフォルト位置 */
-}
-
-/* スマホ用（画面幅768px以下） */
-@media (max-width:768px){
-  .hero-media.is-overlay img{
-    object-position: 50% 12%; /* ← スマホでの表示位置 */
-  }
-}
-
-
-.hero-media.is-overlay::before{
-  content:"";
-  position:absolute;
-  top:0; right:0; bottom:0;
-  width:60%;
-  background:linear-gradient(to left, rgba(0,0,0,.74) 0%, rgba(0,0,0,.46) 42%, rgba(0,0,0,0) 100%);
-  pointer-events:none;
-  z-index:0;
-}
-
-.hero-copy{
-  position:absolute;
-  right:clamp(20px,4vw,60px);
-  top:clamp(0px, 2vw, 16px);
-  bottom:auto;
-  /* width:30%;  ← 現状の値とコメントが食い違っているので */
-  width:35%;      /* ← コメントどおりにするなら 35% に */
-  max-width:480px;
-  /* 以下同じ */
-  background:rgba(0,0,0,.30);
-  padding:20px;         /* ← 中の余白を少し調整してバランスUP */
-  border-radius:12px 0 0 12px;
-  color:var(--cream-50);
-  display:grid;
-  gap:clamp(14px,2vw,22px);
-  z-index:2;
-  box-sizing:border-box;
-}
-
-/* ← 追加：上方向に黒帯を拡大するレイヤー */
-.hero-media.is-overlay::after{
-  content:"";
-  position:absolute;
-  top:0; left:0; right:0;
-  height:40%; /* ← 黒帯を上にどこまで広げたいか調整 */
-  background:linear-gradient(to bottom, rgba(0,0,0,.65) 0%, rgba(0,0,0,0) 100%);
-  pointer-events:none;
-  z-index:0;
-}
-
-/* ピタ付けしたい時に使うユーティリティ */
-.hero-copy.is-flush-top{
-  top:0;
-  border-top-left-radius:12px;
-}
-
-/* 見出し・可読性 */
-.catch{ font-family:var(--font-display); line-height:1.25; font-weight:400; letter-spacing:.04em; font-feature-settings:"palt" 1 }
-.catch, .lead, .hours, .status, .chip{ text-shadow:0 3px 12px rgba(0,0,0,.7) }
-
-/* バッジ行 */
-.hero-chips{ display:flex; gap:10px; flex-wrap:wrap; margin:2px 0 0 }
-.status{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:6px 12px; border-radius:999px; background:#1aa061; color:#fff; font-weight:700; font-size:14px;
-}
-.status.is-closed{ background:#a4453d }
-
-/* 営業時間ボックス：少し下へ離す */
-.hours{
-  display:grid; grid-template-columns:auto 1fr;
-  column-gap:12px; row-gap:4px;
-  background:rgba(0,0,0,.28);
-  padding:8px 10px; border-radius:10px;
-  font-variant-numeric:tabular-nums;
-  margin-top:clamp(24px,3vw,48px);    /* ← ここで“もう少し下に” */
-}
-.hours .chip{
-  grid-column:1 / -1; justify-self:start;
-  display:inline-block; width:auto;
-  padding:4px 10px; font-size:12px; font-weight:700;
-  border-radius:999px; background:var(--latte-300); color:#2a1c16; margin:0 0 6px 0;
-}
-
-/* ===== モバイル ===== */
-@media (max-width:768px){
-  .hero-copy{
-    left:50%; right:auto; transform:translateX(-50%);
-    width:min(92%,560px);
-    text-align:center; align-items:center;
-    top:auto; bottom:20px;             /* モバイルは下寄せで視線誘導 */
-    border-radius:12px;
-    padding:18px 16px;
-  }
-  .hours{ margin-top:16px }
-}
-/* ▼ キャッチコピー下の文章を同じ色に統一 */
-.lead,
-.hours{
-  color: var(--cream-50);   /* ← キャッチコピーと同じ色 */
-}
-
-/* 既存の .hero-slider を上書き */
-.hero-slider{
-  max-width: var(--hero-maxw);
-  margin-inline: auto;   /* ← 中央寄せ */
-  overflow: hidden;
-  /* もし親に左右パディングがあるなら無効化したい場合 */
-  /* padding-inline: 0; */
-}
-
-.hero-track{
-  display: flex;
-  width: 100%;
-  height: 100%;
-  transition: transform .6s ease;
-  /* トラックのズレ防止（念のため） */
-  gap: 0;
-  transform: translateX(calc(-1 * var(--slide-index, 0) * 100%));
-}
-
-.hero-slide{
-  position: relative;
-  min-width: 100%;
-  height: 100%;
-}
-
-.hero-slide img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.hero-caption{
-  position: absolute;
-  left: clamp(12px, 6vw, 80px);
-  bottom: clamp(24px, 10vh, 140px);
-  color: var(--white,#fff);
-  font-family: var(--font-display, serif);
-  font-size: clamp(18px, 3.2vw, 40px);
-  line-height: 1.2;
-  text-shadow: 0 8px 24px rgba(0,0,0,.45);
-  background: linear-gradient(to right, rgba(0,0,0,.45), rgba(0,0,0,.1));
-  padding: .45em .75em;
-  border-radius: var(--radius, 12px);
-}
-
-/* 矢印 */
-.hero-nav{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: rgba(0,0,0,.45);
-  color: #fff;
-  font-size: 1.6rem;
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  cursor: pointer;
-  backdrop-filter: blur(2px);
-}
-.hero-prev{ left: clamp(6px, 2vw, 20px); }
-.hero-next{ right: clamp(6px, 2vw, 20px); }
-.hero-nav:hover{ background: rgba(0,0,0,.6); }
-
-/* ドット */
-.hero-dots{
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: clamp(8px, 3vh, 28px);
-  display: flex; gap: 10px;
-}
-.hero-dots button{
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  border: 0;
-  background: rgba(255,255,255,.45);
-  cursor: pointer;
-}
-.hero-dots button[aria-selected="true"]{
-  background: #fff;
-  transform: scale(1.2);
-}
-
-/* モバイルで指スワイプの誤タップ防止 */
-.hero-slider button, .hero-dots button{ touch-action: manipulation; }
-
-
-/* ▼ ステータスバッジ（本日営業中）をヘッダー右上へ */
-.header .status{
-  margin-left: 14px;        /* ナビの右側に少し余白をとる */
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 12px;
-  border-radius:999px;
-  background:#1aa061;
-  color:#fff;
-  font-weight:700;
-  font-size:14px;
-}
-.header .status.is-closed{
-  background:#a4453d;
-}
-
-/* カード自体の幅を絞って中央に */ 
-.feature-snap{ max-width: 900px; /* ← 好みで 860 / 960 に微調整OK */ 
-  margin-inline: auto; position: relative; /* 矢印の絶対配置用 */ 
-  padding: 0; /* 既に内側で padding しているので0でOK */ 
-}
-
-/* トラック（横に1枚ずつ並べて、横スク+スナップ） */
-.snap-track{
-  display: grid;
-  grid-auto-flow: column;     /* 横方向に連結 */
-  grid-auto-columns: 100%;    /* 1画面=1アイテム */
-  overflow-x: auto;           /* 横スクロールON */
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  padding: 16px 24px;         /* 左右の内側余白 */
-
-}
-
-/* スライド内レイアウト + スナップ位置 */
-.snap-item{
-  scroll-snap-align: start;     /* ← これがないとピタッと止まらない */
-  display: grid;
-  grid-template-columns: 320px 1fr;  /* 画像:本文 */
-  gap: 20px;
-  align-items: center;
-}
-.snap-item img{ height: 240px; }      /* 画像少し大きめ */
-.snap-text{ max-width: 48ch; }        /* 1行が長すぎないよう調整 */
-
-/* 矢印ボタン */
-.snap-arrow{
-  position: absolute;
-  top: 50%;
-  translate: 0 -50%;
-  width: 40px; height: 40px;
-  border-radius: 999px;
-  border: 1px solid rgba(0,0,0,.15);
-  background: rgba(255,255,255,.85);
-  box-shadow: var(--shadow);
-  font-size: 22px; line-height: 1;
-  display: grid; place-items: center;
-  cursor: pointer;
-  z-index: 5;
-}
-.snap-arrow:hover{ background: #fff; }
-.snap-arrow.prev{ left: 6px; }
-.snap-arrow.next{ right: 6px; }
-
-/* モバイル：左右矢印は邪魔になりやすいので非表示（横スワイプで操作） */
-@media (max-width: 768px){
-  .snap-arrow{ display:none; }
-  .snap-item{ grid-template-columns: 1fr; }
-  .snap-item img{ height: 200px; }
-}
-
-/* ===== こだわり（横スライド）のバランス調整パッチ ===== */
-
-/* 1) 1画面＝1スライド＆中央寄せ・チラ見え防止 */
-.feature-snap{
-  max-width: 860px;              /* ← さらに少し細く（900→860） */
-  margin-inline: auto;
-  position: relative;
-  overflow: hidden;
-  padding: 0 16px;               /* ← カード左右にだけ内余白 */
-  box-sizing: border-box;
-}
-.snap-track{
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  padding: 0;                    /* ← 余白は .feature-snap 側で持つ */
-  margin: 0;
-}
-.snap-item{
-  scroll-snap-align: start;
-  width: 100%;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 300px 1fr;  /* ← 比率を詰めて文章スペースを確保 */
-  gap: 18px;
-  align-items: center;               /* ← 縦位置をそろえる */
-}
-
-/* 2) 画像と文字の“量感”をそろえる */
-.snap-item img{
-  width: 100%;
-  height: 220px;                     /* ← 画像トーンを少し控えめに */
-  object-fit: cover;
-  border-radius: 12px;
-}
-.snap-text{
-  max-width: 46ch;                   /* ← 1行の長さを制限して読みやすく */
-}
-.snap-text h3{
-  margin: 2px 0 6px;
-  font-family: var(--font-display);
-  color: #3b241f;
-  font-size: clamp(18px, 2.2vw, 22px);
-  line-height: 1.3;
-}
-.snap-text .lead{
-  color: var(--muted);               /* ← トーンを落として主張を調整 */
-  font-size: 0.98rem;
-  line-height: 1.8;
-  margin: 0;                         /* ← 余白は下だけで十分 */
-}
-.snap-text .lead + .lead{ margin-top: 8px; } /* 複数段落時 */
-
-/* 3) 矢印の当たり判定を少し外側に＆視覚の重心を中央へ */
-.snap-arrow{ transform: translateY(-50%); }  /* translate の標準記法 */
-.snap-arrow.prev{ left: 2px; }
-.snap-arrow.next{ right: 2px; }
-
-/* 4) ブレークポイントで微調整（大きい画面はゆったり） */
-@media (min-width: 1200px){
-  .feature-snap{ max-width: 920px; }
-  .snap-item{ grid-template-columns: 320px 1fr; gap: 22px; }
-  .snap-item img{ height: 240px; }
-  .snap-text{ max-width: 50ch; }
-}
-
-/* 5) モバイルは従来どおり縦積み＋スワイプ */
-@media (max-width: 768px){
-  .snap-item{ grid-template-columns: 1fr; gap: 12px; }
-  .snap-item img{ height: 200px; }
-  .snap-text{ max-width: none; }
-}
-
-/* ==== Hero fix: 高さを与える or 比率で固定する ==== */
-
-/* どちらか1つを採用（A推奨） */
-
-/* A) 高さをクランプで固定（推奨） */
-.hero-slider{
-  height: clamp(360px, 56vh, 600px);
-}
-
-/* B) もしくは比率で固定（高さは自動）
-.hero-slider{
-  height: auto;
-  aspect-ratio: 16 / 9;
-}
-*/
-
-/* 100%高さが効くように子にも明示（保険） */
-.hero-track{ height: 100%; }
-.hero-slide{ height: 100%; }
-
-/* 画角を少し“引く”場合（任意） */
-:root{ --hero-scale: 0.94; }  /* 0.90〜0.98で微調整 */
-.hero-slide img{
-  object-fit: cover;
-  object-position: center 48%;
-  transform: scale(var(--hero-scale));
-  transform-origin: center center;
-}
-
-
-/* ===== Chic Black Theme (柔らかい黒ベース) ===== */
-:root{
-  --base-black: #121212;   /* 背景：真っ黒より少し柔らかい黒 */
-  --panel:      #1c1c1c;   /* カード等の面色：ベースより少し明るい */
-  --ink-light:  #f2ede7;   /* 文字：アイボリー寄りで読みやすく */
-  --accent:     #d7b899;   /* 見出し・飾り用ラテフォーム色 */
-}
-
-/* 全体 */
-body{
-  background: var(--base-black);
-  color: var(--ink-light);
-}
-
-/* ヘッダー・フッターも黒統一 */
-.header,
-footer{
-  background: var(--base-black) !important;
-  color: var(--ink-light);
-  border: none;
-}
-
-/* ヒーロー背景の茶色を消す */
-.hero-slider{
-  background: transparent !important;
-}
-.hero-caption{
-  color: var(--ink-light);
-  background: rgba(0,0,0,.45);
-  text-shadow: 0 6px 18px rgba(0,0,0,.5);
-}
-
-/* カードは少し浮かせる */
-.card{
-  background: var(--panel);
-  color: var(--ink-light);
-  border: 1px solid rgba(255,255,255,.08);
-  box-shadow: 0 8px 24px rgba(0,0,0,.5);
-}
-
-/* 見出し・アクセント */
-h2{
-  color: var(--accent);
-  font-family: var(--font-display);
-}
-
-/* ===== Typography 渋めスタイル ===== */
-
-/* 本文は読みやすいシンプルゴシック */
-body {
-  font-family: var(--font-sans); /* Noto Sans JP */
-  letter-spacing: 0.02em;
-  line-height: 1.8;
-  color: var(--ink-light);
-}
-
-/* 見出し・ロゴ・キャッチは Yuji Syuku で渋く */
-h1, h2, h3,
-.brand,
-.hero-caption,
-.catch {
-  font-family: var(--font-display); /* Yuji Syuku */
-  letter-spacing: 0.05em;  /* ゆったり目で上品に */
-  font-weight: 400;        /* 渋めに軽く */
-}
-
-/* 見出しカラーを落ち着いた金茶に */
-h2 {
-  color: #bfa27a;  /* 落ち着きある金茶 */
-}
-
-/* リード文や説明文は少しトーンダウン */
-.lead, .menu-item .lead {
-  color: rgba(242,237,231,.75);
-}
-/* ===== ① ヒーローのキャッチを馴染ませる ===== */
-
-/* 画像の下側に薄いスクリーンを敷く（文字の乗りを良くする） */
-.hero-slide{ position: relative; }
-.hero-slide::after{
-  content:"";
-  position:absolute; inset:0;
-  background: linear-gradient(to top,
-              rgba(0,0,0,.55) 0%,
-              rgba(0,0,0,.25) 35%,
-              rgba(0,0,0,0) 60%);
-  pointer-events:none;
-}
-
-/* キャプション自体も黒地になじむ質感に */
-.hero-caption{
-  color: var(--ink-light, #f2ede7);
-  background: rgba(0,0,0,.42);
-  border: 1px solid rgba(255,255,255,.06);
-  backdrop-filter: blur(3px) saturate(105%);
-  box-shadow: 0 10px 28px rgba(0,0,0,.55);
-  text-shadow: 0 4px 14px rgba(0,0,0,.55);
-  border-radius: 12px;
-  padding: .55em .9em;
-}
-
-/* 文字が強すぎるときは少し落とす（好みでON）
-.hero-caption{ color: rgba(242,237,231,.92); }
-*/
-
-/* ===== ② メニュー周り：統一トーンで読みやすく ===== */
-
-/* カード内のタイトル・本文・価格の色設計を黒ベース用に上書き */
-.menu-item .body h3,
-.menu-item h3{
-  color: var(--ink-light, #f2ede7);
-  font-family: var(--font-display);       /* 渋めにYuji */
-  letter-spacing: .04em;
-}
-
-/* 説明文はややトーンダウンだが十分なコントラストに */
-.menu-item .lead{
-  color: rgba(242,237,231,.82);
-}
-
-/* 価格は統一アクセント（渋い金茶）で視認性UP */
-.price{
-  color: #bfa27a;      /* 渋めゴールド */
-  font-weight: 700;
-  opacity: 1;          /* 念のため */
-}
-
-/* メニュー見出し/小見出しも同じアクセントで統一 */
-h2{ color: #bfa27a; }
-
-/* ドロップシャドウが強く暗く見える時は少し弱める（任意）
-.card{ box-shadow: 0 6px 18px rgba(0,0,0,.45); }
-*/
-
-/* ===== ゴールド系ラベルスタイル ===== */
-
-/* 商品名：アイボリーで可読性重視 */
-.menu-item h3 {
-  color: var(--ink-light, #f2ede7);
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-
-/* 店主・こだわりなどの小見出しをゴールド系に */
-.about h3,
-.snap-text h3 {
-  color: #bfa27a; /* 渋めゴールド */
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-
-/* バブルラベル（豆・ミルクなど） */
-.bubble {
-  background: #bfa27a; /* ゴールド */
-  color: #111;         /* 黒地に映える濃い文字 */
-  font-weight: 700;
-}
-.bubble::after {
-  border-top-color: #bfa27a;
-}
-
-/* 説明文（リード文）は弱めのアイボリー */
-.lead {
-  color: rgba(242,237,231,.82);
-}
-
-/* ===== 黒背景で沈んでいるテキスト色を修正 ===== */
-
-/* メニューの商品のタイトル */
-.menu-item h3,
-.menu-item .title {
-  color: var(--ink-light, #f2ede7); /* アイボリーでクッキリ */
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-
-/* 店舗情報や「アクセス」「お店について」などのセクション見出し */
-.about h3,
-.access h3 {
-  color: #bfa27a; /* ゴールド系でアクセント */
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-
-/* 店舗紹介文などの本文 */
-.about p,
-.access p {
-  color: rgba(242,237,231,.85); /* 読みやすいアイボリー */
-}
-
-/* バブルラベル（豆・ミルク）も再指定 */
-.bubble {
-  background: #bfa27a;  /* ゴールドベージュ */
-  color: #111;          /* 黒に映える濃色文字 */
-  font-weight: 700;
-}
-.bubble::after {
-  border-top-color: #bfa27a;
-}
-/* ==== FIX: 黒ベースで沈んでいる見出し・商品名を強制上書き ==== */
-
-/* メニューの商品名（カード内の h3 を確実に） */
-.menu-item .body h3,
-.menu-item h3{
-  color: var(--ink-light, #f2ede7) !important;
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-
-/* 「店舗情報」などセクションの見出し（about / access / こだわり） */
-.about h3,
-.access h3,
-.snap-text h3{
-  color: #bfa27a !important;  /* 渋ゴールド */
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-
-/* リード・説明文（暗く沈んで見えるのを持ち上げ） */
-.menu-item .lead,
-.about p,
-.access p,
-.snap-text .lead{
-  color: rgba(242,237,231,.86) !important;
-}
-
-/* 「豆・ミルク」などのバッジ（バブル） */
-.bubble{
-  background: #bfa27a !important;
-  color: #111 !important;
-}
-.bubble::after{ border-top-color: #bfa27a !important; }
-/* 店主 = 1枚目のカードだけ、上を多めに見せる */
-.feature-snap .snap-track > .snap-item:nth-of-type(1) img{
-  object-position: 50% 15% !important;  /* 20% = かなり上寄せ。30〜35%でもOK */
-}
-
-/* モバイルはさらに上寄せ（画面が縦長で切れやすい） */
-@media (max-width:768px){
-  .feature-snap .snap-track > .snap-item:nth-of-type(1) img{
-    object-position: 50% 12% !important;
-  }
-}
-
-/* ==== Access：左マップ／右情報カード（黒テーマ対応） ==== */
-.access-grid.access-compact{
-  display:grid;
-  grid-template-columns: minmax(360px, 0.8fr) minmax(300px, 1.0fr);
-  gap: 20px;
-  align-items: start;
-}
-
-/* 地図を“コンパクト”に見せる */
-.mapwrap{ position: relative; }
-.map-embed{
-  width: 100%;
-  aspect-ratio: 16 / 10;           /* ← 縦を少し詰める：3/2 も好みで */
-  border: 0;
-  border-radius: var(--radius);
-  background: #000;
-  box-shadow: 0 8px 24px rgba(0,0,0,.5);
-}
-/* 地図の右上に小さなボタン */
-.map-open{
-  position: absolute; right: 10px; top: 10px;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-}
-
-/* 右の情報カード */
-.access-card{
-  background: var(--panel);
-  color: var(--ink-light);
-  padding: 16px 16px 18px;
-  border: 1px solid rgba(255,255,255,.08);
-}
-.access-title{
-  margin: 0 0 10px;
-  font-family: var(--font-display);
-  color: #bfa27a;               /* 渋ゴールド */
-  letter-spacing: .04em;
-}
-
-/* === Access：右カードを小さめに固定 === */
-.access-grid.access-compact{
-  grid-template-columns: minmax(360px, 0.8fr) fit-content(520px); /* 右に上限 */
-}
-
-.access-card{
-  max-width: 520px;   /* 480〜560pxで微調整 */
-  justify-self: end;  /* 右端に寄せて整列 */
-}
-
-
-/* 定義リストできれいに整列 */
-.info-list{
-  display: grid;
-  grid-template-columns: 5.5em 1fr;
-  row-gap: 8px; column-gap: 10px;
-  margin: 8px 0 14px;
-}
-.info-list dt{
-  color: #bfa27a;
-  font-family: var(--font-display);
-  letter-spacing: .04em;
-}
-.info-list dd{ margin: 0; color: var(--ink-light); }
-.info-list a{ text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,.25); }
-
-/* 営業時間・定休日 */
-.hours-box h4{
-  margin: 10px 0 4px;
-  font-family: var(--font-display);
-  color: #bfa27a;
-  letter-spacing: .04em;
-}
-.hours-box time{ font-variant-numeric: tabular-nums; }
-.pill{
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: #bfa27a; color: #111; font-weight: 700;
-}
-
-/* CTAボタン */
-.btn{ display:inline-block; padding:10px 14px; border-radius:10px; text-decoration:none; }
-.btn-accent{ background: var(--accent); color:#111; font-weight:700; }
-.btn-ghost{ background: transparent; color: var(--ink-light); border:1px solid rgba(255,255,255,.18); }
-
-/* モバイル：縦積み＋地図→情報の順 */
-@media (max-width: 920px){
-  .access-grid.access-compact{ grid-template-columns: 1fr; }
-  .access-card{ padding: 14px; }
-  .map-embed{ aspect-ratio: 3 / 2; } /* さらにコンパクト */
-}
-
-/* ==== Access：左右の高さをそろえる ==== */
-.access-grid.access-compact{
-  align-items: stretch;            /* ← 行の高さまで子を伸ばす */
-}
-
-/* 子要素を行の高さにフィット */
-.mapwrap,
-.access-card{
-  height: 100%;
-}
-
-/* カードの中身を上下に気持ちよく配置 */
-.access-card{
-  display: flex;
-  flex-direction: column;
-}
-.access-actions{ margin-top: auto; } /* CTAを下に寄せる */
-
-/* モバイルでは自然な高さに戻す */
-@media (max-width: 920px){
-  .access-grid.access-compact{ align-items: start; }
-  .mapwrap, .access-card{ height: auto; }
-  .access-card{ display: block; }
-}
-
-/* ==== ① 営業情報を見やすく（レイアウト＆タイポ強化） ==== */
-.hours-box{
-  margin-top: 10px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(255,255,255,.05);              /* 色味はそのまま系の薄幕 */
-  border: 1px solid rgba(255,255,255,.12);
-  display: grid;
-  grid-template-columns: auto 1fr;                /* ラベル／内容の2列 */
-  column-gap: 10px; row-gap: 6px;
-}
-.hours-box h4{
-  grid-column: 1 / -1;                            /* 見出しは1行で */
-  margin: 0 0 4px;
-}
-.hours-box p{
-  margin: 0;
-  display: flex; align-items: center; gap: 8px;
-  line-height: 1.6;
-}
-.hours-box time{
-  font-variant-numeric: tabular-nums;
-  letter-spacing: .02em;
-  font-weight: 700;                                /* 数字をクッキリ */
-}
-
-
-/* 定休日ピルは少しだけ小ぶり＆上質に */
-.pill{
-  padding: 2px 10px;
-  border-radius: 999px;
-  font-weight: 700;
-  letter-spacing: .02em;
-}
-
-/* ==== ② アクセスボタン：フラット＆上品に ==== */
-.access-actions{ display:flex; gap:10px; margin-top: 14px; }
-.access-actions .btn{
-  flex: 1;                                         /* 同じ幅に並べる */
-  display: inline-flex; align-items:center; justify-content:center;
-  gap: 8px;
-  padding: 11px 14px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: transform .08s ease, filter .2s ease, background .2s ease, border-color .2s ease;
-  will-change: transform;
-  min-height: 44px;                                /* タップしやすく */
-}
-
-/* 経路案内ボタン（アクセント） */
-.btn-accent{
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.06)), var(--accent);
-  color: #111;
-  border: 1px solid rgba(0,0,0,.18);
-  box-shadow: 0 6px 18px rgba(0,0,0,.35);
-}
-.btn-accent:hover{ transform: translateY(-1px); filter: brightness(1.04); }
-.btn-accent:active{ transform: translateY(0); }
-
-/* 地図を開くボタン（ゴースト） */
-.btn-ghost{
-  background: transparent;
-  color: var(--ink-light);
-  border: 1px solid rgba(255,255,255,.18);
-}
-.btn-ghost:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.30); }
-
-/* キーボード操作の視認性 */
-.access-actions .btn:focus-visible{
-  outline: 2px solid rgba(255,255,255,.5);
-  outline-offset: 2px;
-  border-color: rgba(255,255,255,.35);
-}
-
-/* ===== Access：超シンプル版（囲み/装飾なし） ===== */
-
-/* 右カード自体の囲みを消す */
-.access-card{
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  max-width: 520px;              /* 必要なら 480〜560pxで微調整 */
-  justify-self: end;
-}
-
-/* タイトルはそのまま（色だけ現状維持）。余白だけ少し */
-.access-title{ margin: 0 0 8px !important; }
-
-/* 定義リスト：線も枠も無し、行間だけで整える */
-.info-list{
-  grid-template-columns: 6em 1fr !important; /* ラベル/内容の比率だけ維持 */
-  row-gap: 6px !important; column-gap: 12px !important;
-  margin: 6px 0 10px !important;
-}
-.info-list > *{ padding-block: 0 !important; border-bottom: none !important; }
-.info-list dt{ white-space: nowrap; }
-
-/* 営業情報：囲み/ピル/アイコンを完全撤去してテキストだけ */
-.hours-box{
-  background: transparent !important;
-  border: none !important;
-  padding: 0 !important;
-  margin-top: 8px !important;
-  display: block !important;
-}
-.hours-box h4{ margin: 0 0 4px !important; }
-.hours-box p{
-  margin: 0 0 4px !important;
-  display: inline;                /* 1行で並べたい場合 */
-}
-.hours-box .closed{ margin-left: 12px; }  /* 「定休日 …」を横に続ける */
-.pill{
-  background: none !important;
-  color: inherit !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  font-weight: 600 !important;    /* 文字だけ少し太めに */
-}
-
-/* アクセスボタン：デザインをやめて“ただのリンク”に */
-.access-actions{ display: flex; gap: 14px; margin-top: 8px !important; }
-.access-actions .btn,
-.btn-accent, .btn-ghost{
-  all: unset;                     /* 既存のボタン装飾を全解除 */
-  cursor: pointer;
-  color: var(--ink-light);
-  text-decoration: underline;
-}
-.access-actions .btn:focus-visible{
-  outline: 2px solid rgba(255,255,255,.45);
-  outline-offset: 2px;
-}
-
-/* マップの囲み（角丸/影）も外す */
-.map-embed{
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-}
-
-/* 「Googleマップで開く」もボタン風をやめてテキストリンクに */
-.map-open{
-  position: static !important;
-  display: inline-block;
-  margin-top: 6px;
-  padding: 0 !important;
-  border: none !important;
-  background: transparent !important;
-  color: var(--ink-light);
-  text-decoration: underline;
-  font-size: 0.95rem;
-}
-
-/* ==== Access：余白＆行間だけ見やすく ==== */
-:root{
-  --access-gap-x: clamp(24px, 4vw, 48px); /* 地図 ↔ アクセス情報 の横間隔 */
-  --access-gap-y: clamp(10px, 2.5vw, 24px); /* セクション内の縦間隔 */
-  --info-label-w: 6.2em;  /* ラベル列の見た目幅 */
-  --info-row-gap: 10px;   /* アクセス情報の各項目の間隔 */
-  --info-line: 1.8;       /* 本文の行間 */
-  --access-title-mb: 10px;
-}
-
-/* 地図と右カードの“間”を広げる */
-.access-grid.access-compact{
-  column-gap: var(--access-gap-x);
-  row-gap: var(--access-gap-y);
-}
-
-/* 見出しと本文の間にひと呼吸 */
-.access-title{ margin: 0 0 var(--access-title-mb); }
-
-/* アクセス情報（定義リスト）の行間＆項目間 */
-.info-list{
-  grid-template-columns: var(--info-label-w) 1fr !important;
-  row-gap: var(--info-row-gap) !important;
-}
-.info-list dt,
-.info-list dd,
-.access-card p,
-.access-card address{
-  line-height: var(--info-line);
-}
-
-/* 営業情報は縦並びで行間を確保（装飾なしのまま） */
-.hours-box p{
-  display: block !important;
-  margin: 2px 0 6px !important;
-  line-height: var(--info-line);
-}
-
-/* モバイルは少しだけタイトに */
-@media (max-width: 920px){
-  :root{
-    --access-gap-x: 18px;
-    --info-row-gap: 8px;
-    --info-line: 1.7;
-  }
-}
-
-/* ==== Access：地図 ↔ アクセス情報 の間を広げる ==== */
-
-/* まずは横だけガッと広げる（推奨） */
-.access-grid.access-compact{
-  column-gap: clamp(32px, 6vw, 96px) !important;  /* ← お好みで上限を80〜112pxに */
-}
-
-/* 既存で `gap: 20px;` が効いていると変化が弱い時は、まとめて上書き */
-.access-grid.access-compact{
-  row-gap: 16px !important;                        /* 縦は適度に */
-  column-gap: clamp(32px, 6vw, 96px) !important;   /* 横はしっかり */
-}
-
-/* ワイド画面でさらに余白を出したい場合（任意） */
-@media (min-width: 1200px){
-  .access-grid.access-compact{
-    column-gap: clamp(48px, 8vw, 128px) !important;
-  }
-}
-
-/* それでも窮屈に見えるときの補助（右カードを少しだけ離す） */
-.access-card{
-  margin-left: clamp(8px, 2.5vw, 24px);  /* ← gapに“足し算”する感じ */
-
-}
-
-/* ===== Gold Status Badge（ヘッダー右上） ===== */
-.header .status{
-  --gold: #bfa27a;      /* ベース金茶 */
-  --gold-hi: #d9c6a3;   /* ハイライト */
-  --gold-deep:#8e724f;  /* 濃いめ */
-  display:inline-flex; align-items:center; gap:8px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, var(--gold-hi), var(--gold));
-  color: #111;                           /* 金×黒で読みやすく */
-  border: 1px solid rgba(0,0,0,.22);
-  box-shadow: 0 8px 22px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.25);
-  font-family: var(--font-sans);         /* 読みやすい方で */
-  font-weight: 700;
-  letter-spacing: .02em;
-  text-shadow: none;
-  transition: filter .2s ease, transform .08s ease;
-}
-.header .status::before{
-  content:"";
-  width: 8px; height: 8px; border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff 0 14%, #f2e3c8 28%, var(--gold-hi) 45%, var(--gold) 62%, var(--gold-deep) 100%);
-  box-shadow: 0 0 8px rgba(191,162,122,.55);
-}
-.header .status:hover{ filter: brightness(1.04); transform: translateY(-1px); }
-
-/* 休業時（色味だけ落として上品に） */
-.header .status.is-closed{
-  background: linear-gradient(180deg, #4b2e2b, #3d2422);
-  color: #f2ede7;
-  border: 1px solid rgba(0,0,0,.35);
-  box-shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12);
-}
-.header .status.is-closed::before{
-  background: radial-gradient(circle at 30% 30%, #fff 0 10%, #ffb9ad 26%, #e67d6e 56%, #b44b3e 100%);
-  box-shadow: 0 0 8px rgba(230,125,110,.42);
-}
-
-/* ラベルを白に */
-.info-list dt[data-i="pin"],
-.info-list dt[data-i="train"],
-.info-list dt[data-i="tel"]{
-  color: var(--ink-light, #f2ede7) !important;
-}
-/* 対応する内容も白に */
-.info-list dt[data-i="pin"]   + dd,
-.info-list dt[data-i="train"] + dd,
-.info-list dt[data-i="tel"]   + dd{
-  color: var(--ink-light, #f2ede7) !important;
-}
-/* 電話リンクの色と下線も白系に */
-.info-list dt[data-i="tel"] + dd a{
-  color: var(--ink-light, #f2ede7) !important;
-  border-bottom-color: rgba(255,255,255,.35) !important;
-}
-

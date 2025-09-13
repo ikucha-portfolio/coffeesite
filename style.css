@@ -234,3 +234,41 @@ footer{ margin-top:36px; padding:26px 16px; background:var(--base-black); color:
 @media (prefers-reduced-motion: reduce){
   *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
 }
+/* === お店について：矢印をカード両端に固定 === */
+.card.feature-snap{ 
+  position: relative;            /* 絶対配置の基準 */
+  padding-inline: 0;             /* 内側余白で寄って見えるのを回避（任意） */
+}
+
+/* 矢印の共通スタイル（位置以外） */
+.card.feature-snap .snap-arrow{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(0,0,0,.45);
+  color: #fff;
+  display: grid; place-items: center;
+  cursor: pointer;
+  z-index: 5;
+  backdrop-filter: blur(2px);
+}
+
+/* 左右の“端”に寄せる（left/right を明示し、逆側は auto で打ち消す） */
+.card.feature-snap .snap-arrow.prev{
+  left: clamp(6px, 1.2vw, 14px) !important;
+  right: auto !important;
+}
+.card.feature-snap .snap-arrow.next{
+  right: clamp(6px, 1.2vw, 14px) !important;
+  left:  auto !important;
+}
+
+.card.feature-snap .snap-arrow:hover{ background: rgba(0,0,0,.6); }
+
+/* モバイルはスワイプ優先で非表示（必要なら） */
+@media (max-width: 768px){
+  .card.feature-snap .snap-arrow{ display: none; }
+}

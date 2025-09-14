@@ -272,3 +272,175 @@ footer{ margin-top:36px; padding:26px 16px; background:var(--base-black); color:
 @media (max-width: 768px){
   .card.feature-snap .snap-arrow{ display: none; }
 }
+/* ===== Layout Baseline (共通レール＆余白) ===== */
+:root{
+  --container-pad: clamp(16px, 4vw, 24px);      /* 画面端からの左右余白 */
+  --section-gap: clamp(28px, 6vw, 80px);        /* セクション間の縦余白 */
+  --block-gap: clamp(12px, 3vw, 28px);          /* セクション内の要素間余白 */
+
+  /* レール：画面中央のコンテンツ枠の“左端/右端”に相当 */
+  --rail: max(
+    var(--container-pad),
+    calc((100vw - var(--maxw)) / 2 + var(--container-pad))
+  );
+}
+
+/* すべてのセクションの左右＆縦リズムを統一 */
+.container{
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  margin-block: var(--section-gap);
+}
+/* ヒーローも同じリズムで区切る */
+.hero-slider{ margin-block: var(--section-gap) !important; }
+/* ヒーローのキャプション位置を左レールに揃える */
+.hero-caption{
+  left: var(--rail) !important;
+  right: auto !important;
+}
+
+/* 矢印も左右レールに（好みでON） */
+.hero-prev{  left:  var(--rail) !important; right: auto !important; }
+.hero-next{  right: var(--rail) !important; left:  auto !important; }
+
+/* ドットを“中寄せ”にしつつ、左右の端はレールと整合（任意） */
+.hero-dots{ left: 50%; transform: translateX(-50%); }
+
+/* 両端にしっかり“レール合わせ” */
+.card.feature-snap{ position: relative; padding-inline: 0; }
+.card.feature-snap .snap-arrow.prev{  left:  var(--rail) !important; right:auto !important; }
+.card.feature-snap .snap-arrow.next{  right: var(--rail) !important; left: auto !important; }
+
+/* アクセス：左右の間隔を共通の block-gap でコントロール */
+.access-grid.access-compact{
+  column-gap: clamp(24px, 4vw, 48px) !important; /* or var(--block-gap) でもOK */
+  row-gap: var(--block-gap) !important;
+}
+
+/* 右カードの左右位置が窮屈なら、見た目だけ少し外側へ（任意） */
+.access-card{ margin-left: clamp(8px, 2vw, 20px); }
+
+
+/* === お店について（feature-snap）：矢印をカード外へ === */
+.card.feature-snap{
+  position: relative;
+  overflow: visible;                 /* はみ出しを切らない */
+  --arrow-size: 44px;                /* 矢印ボタンの大きさ */
+  --arrow-overhang: clamp(24px, 7vw, 200px);  /* どれだけ外へ出すか */
+}
+
+.card.feature-snap .snap-arrow{
+  position: absolute;
+  top: 50%;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+  transform: translateY(-50%);       /* 縦だけ中央（後で上書き） */
+  z-index: 5;
+}
+
+/* 左矢印：カード左端から “半分＋はみ出し” 外側へ */
+.card.feature-snap .snap-arrow.prev{
+  left: 0;
+  transform: translate(calc(-50% - var(--arrow-overhang)), -50%);
+}
+
+/* 右矢印：カード右端から “半分＋はみ出し” 外側へ */
+.card.feature-snap .snap-arrow.next{
+  right: 0;
+  transform: translate(calc(50% + var(--arrow-overhang)), -50%);
+}
+
+/* 任意：ホバー演出など（お好みで） */
+.card.feature-snap .snap-arrow:hover{ filter: brightness(1.1); }
+@media (max-width: 768px){
+  .card.feature-snap .snap-arrow{ display:none; } /* モバイルはスワイプ優先なら */
+}
+
+/* === Access セクションを右寄せに === */
+
+/* 1) グリッド全体（地図＋店舗情報の塊）を右に寄せる */
+#access .access-grid{
+  max-width: 950px;        /* 好みで 860〜1080px に調整可 */
+  margin-left: auto;       /* ← これでコンテナ内の右端へ寄る */
+}
+
+/* 既に右カードを右寄せしたい時の保険（重複OK） */
+#access .access-card{
+  justify-self: end;
+}
+
+/* モバイルは自然な並びに戻す */
+@media (max-width: 920px){
+  #access .access-grid{
+    max-width: none;
+    margin-left: 0;
+  }
+  #access > h2{
+    margin: 0 0 12px 0;
+  }
+}
+
+/* ==== メニューカード：タイトル行数＆説明行数をそろえる ==== */
+:root{
+  --menu-title-lines: 2;   /* 見出しは2行で統一（必要なら3に） */
+  --menu-desc-lines:  2;   /* 説明文の行数も統一（2〜3推奨） */
+}
+
+/* カード本文を縦レイアウトにして価格を最下部へ */
+.menu-item .body{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 見出し：2行分の高さを確保＋超えたら省略 */
+.menu-item .body h3{
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--menu-title-lines);
+  overflow: hidden;
+  min-block-size: calc(1em * 1.3 * var(--menu-title-lines));
+  /* ↑ 1行だけの見出しでも“2行ぶんの枠”を確保して高さを合わせる */
+}
+
+/* 説明文：同じ行数で高さをそろえる */
+.menu-item .lead{
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--menu-desc-lines);
+  overflow: hidden;
+  min-block-size: calc(1em * 1.7 * var(--menu-desc-lines));
+}
+
+/* 価格は常に一番下に来るように */
+.menu-item .price{
+  margin-top: auto;
+}
+
+/* 画面が狭い時は行数を1つ増やして窮屈さ回避（任意） */
+@media (max-width: 560px){
+  :root{
+    --menu-title-lines: 3;
+    --menu-desc-lines:  3;
+  }
+}
+
+/* === メニュー：見出しと説明文の間を詰める === */
+.menu-item .body{
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* ← もっと詰めたいなら 2px / 0 に */
+}
+
+.menu-item .body h3{
+  margin: 0 !important;   /* ← HTMLの inline margin を無効化 */
+  line-height: 1.25;      /* タイトに（任意） */
+}
+
+.menu-item .body .lead{
+  margin: 0;              /* p の既定上下マージンを消す */
+  line-height: 1.6;       /* 読みやすさを保ちつつ少しだけタイトに */
+}

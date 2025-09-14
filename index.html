@@ -69,7 +69,7 @@
         <article class="card menu-item" aria-label="ミルクたっぷりカフェラテ">
           <img src="images/latte.jpg" alt="ミルクたっぷりカフェラテの写真" />
           <div class="body">
-            <h3>ミルクたっぷりカフェラテ</h3><!-- ← インライン色削除 -->
+            <h3>カフェラテ</h3><!-- ← インライン色削除 -->
             <p class="lead">コクのあるミルクとエスプレッソを贅沢に。</p>
             <div class="price">¥550</div>
           </div>
@@ -235,9 +235,9 @@
           open = hour >= 10 && hour < 19; // 平日
         }
       }
-      statusEl.textContent = open ? '本日営業中' : '本日は準備中';
+      statusEl.textContent = open ? '本日営業中' : '只今準備中';
       statusEl.classList.toggle('is-closed', !open);
-      statusEl.setAttribute('aria-label', open ? '本日営業中' : '本日は準備中');
+      statusEl.setAttribute('aria-label', open ? '本日営業中' : '只今準備中');
     })();
   </script>
 
